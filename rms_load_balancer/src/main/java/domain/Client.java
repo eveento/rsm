@@ -102,32 +102,36 @@ public class Client {
 	
 	public class ClientBuilder
 	{
-		private int minimumWorkToDo;
-		private int maximumWorkToDo;
-		private int initialRequestsNumber;
+		private int minimumWorkToDo = 10;
+		private int maximumWorkToDo = 50;
+		private int initialRequestsNumber = 1000;
 		private int remainingRequestsNumber;
-		private double requestsGenerationDensity;
+		private double requestsGenerationDensity = 0.1;
 
-		public void MinimumWorkToDo(int minimumWorkToDo) {
+		public ClientBuilder MinimumWorkToDo(int minimumWorkToDo) {
 			this.minimumWorkToDo = MakePositive(minimumWorkToDo);
+			return this;
 		}
 
-		public void MaximumWorkToDo(int maximumWorkToDo) {
+		public ClientBuilder MaximumWorkToDo(int maximumWorkToDo) {
 			maximumWorkToDo = MakePositive(maximumWorkToDo);
 			if(maximumWorkToDo < this.minimumWorkToDo)
 			{
 				maximumWorkToDo = this.minimumWorkToDo;
 			}
 			this.maximumWorkToDo = maximumWorkToDo;
+			return this;
 		}
 
-		public void InitialRequestsNumber(int initialRequestsNumber) {
+		public ClientBuilder InitialRequestsNumber(int initialRequestsNumber) {
 			this.initialRequestsNumber = MakePositive(initialRequestsNumber);
 			this.remainingRequestsNumber = this.initialRequestsNumber;
+			return this;
 		}
 
-		public void RequestsGenerationDensity(double requestsGenerationDensity) {
+		public ClientBuilder RequestsGenerationDensity(double requestsGenerationDensity) {
 			this.requestsGenerationDensity = MakeValuePercantage(requestsGenerationDensity);
+			return this;
 		}
 		
 		private int MakePositive(int number)
