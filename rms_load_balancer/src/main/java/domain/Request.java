@@ -47,9 +47,9 @@ public class Request {
 		Random rand = new Random();
 		String first = defaultAddress;
 		//**** od 0 do 255 chyba
-		int second = rand.nextInt(256);
-		int third = rand.nextInt(256);
-		int fourth = rand.nextInt(256);
+		int second = rand.nextInt(255);
+		int third = rand.nextInt(255);
+		int fourth = rand.nextInt(255);
 		address = first +"."+String.valueOf(second)+"."+String.valueOf(third)+"."+String.valueOf(fourth);
 	}
 }

@@ -2,81 +2,178 @@ package domain;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 public class Client {
 
-	private static List<String> list = new ArrayList<String>(); 
-	private final String defaultAddress = "192";
-	public String clientAddress;
-	//*********************************************************
-	public static List<String> getList() {
-		return list;
-	}
-
-	public static void setList(List<String> list) {
-		Client.list = list;
-	}
-	//*********************************************************
-	public String getClientAddress() {
-		return clientAddress;
-	}
-
-	public void setClientAddress(String clientAddress) {
-		this.clientAddress = clientAddress;
-	}
-	//*********************************************************
+	private int minimumWorkToDo;
+	private int maximumWorkToDo;
+	private int initialRequestsNumber;
+	private int remainingRequestsNumber;
+	private double requestsGenerationDensity; // percantage ( 0 < x <= 100)
+	private final int maximumNumberOfRequestsInOneQueue = 100;
+	private final double gaussianModifier = 0.25;
+	private Random randomGenerator;
 	
-	/*
-	 * metoda sprawdzajaca czy wygenerowany adres sie nie powtarza
-	 * 
-	 * nie jestem pewny funkcji checkIfAddressExist
-	 */
-	private boolean checkIfAddressExist(String address) {
-	/*	if(address.isEmpty())
-			return false;
-		else {
-			for(int i=0; i<list.size()-1;i++) {
-				try {
-					if(list.get(i).getBytes(address).equals(address))
-						return true;
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
+	private Client(ClientBuilder builder)
+	{
+		this.minimumWorkToDo = builder.minimumWorkToDo;
+		this.maximumWorkToDo = builder.maximumWorkToDo;
+		this.initialRequestsNumber = builder.initialRequestsNumber;
+		this.remainingRequestsNumber = builder.remainingRequestsNumber;
+		this.requestsGenerationDensity = builder.requestsGenerationDensity;
+		randomGenerator.nextGaussian();
+	}
+	
+	public Queue<Request> GenerateRequests()
+	{
+		Queue<Request> queue = new LinkedList<Request>();
+		
+		int numberOfRequests = GenerateNumberOfRequestsInQueue();
+		
+		for (int i = 0; i < numberOfRequests; i++)
+		{
+			AddRequestToQueue(queue, GenerateRequest());
+		}
+		
+		return queue;
+	}
+	
+	private int GenerateNumberOfRequestsInQueue()
+	{
+		int number = (int) (requestsGenerationDensity * maximumNumberOfRequestsInOneQueue);
+		number = (int) (number * (randomGenerator.nextGaussian() + gaussianModifier));
+		if(number > maximumNumberOfRequestsInOneQueue)
+		{
+			number = maximumNumberOfRequestsInOneQueue;
+		}
+		return number;
+	}
+	
+	private boolean AddRequestToQueue(Queue<Request> queue,Request RequestToAdd)
+	{
+		if(remainingRequestsNumber - 1 >= 0)
+		{
+			queue.add(RequestToAdd);
+			return true;
+		}
+		return false;
+	}
+	
+	private Request GenerateRequest()
+	{
+		return new Request(SetRequestWork());
+	}
+	
+	private double SetRequestWork()
+	{
+		int number;
+		number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
+		return number;
+	}
+	
+	public double getMinimumWorkToDo() {
+		return minimumWorkToDo;
+	}
+
+	public double getMaximumWorkToDo() {
+		return maximumWorkToDo;
+	}
+
+	public int getInitialRequestsNumber() {
+		return initialRequestsNumber;
+	}
+
+	public int getRemainingRequestsNumber() {
+		return remainingRequestsNumber;
+	}
+
+	public double getRequestsGenerationDensity() {
+		return requestsGenerationDensity;
+	}
+	
+	public class ClientBuilder
+	{
+		private int minimumWorkToDo;
+		private int maximumWorkToDo;
+		private int initialRequestsNumber;
+		private int remainingRequestsNumber;
+		private double requestsGenerationDensity;
+
+		public void MinimumWorkToDo(int minimumWorkToDo) {
+			this.minimumWorkToDo = MakePositive(minimumWorkToDo);
+		}
+
+		public void MaximumWorkToDo(int maximumWorkToDo) {
+			maximumWorkToDo = MakePositive(maximumWorkToDo);
+			if(maximumWorkToDo < this.minimumWorkToDo)
+			{
+				maximumWorkToDo = this.minimumWorkToDo;
+			}
+			this.maximumWorkToDo = maximumWorkToDo;
+		}
+
+		public void InitialRequestsNumber(int initialRequestsNumber) {
+			this.initialRequestsNumber = MakePositive(initialRequestsNumber);
+			this.remainingRequestsNumber = this.initialRequestsNumber;
+		}
+
+		public void RequestsGenerationDensity(double requestsGenerationDensity) {
+			this.requestsGenerationDensity = MakeValuePercantage(requestsGenerationDensity);
+		}
+		
+		private int MakePositive(int number)
+		{
+			if(number < 0)
+			{
+				number = -number;
+			}
+			else if(number == 0)
+			{
+				number = 1;
+			}
+			return number;
+		}
+		
+		private double MakeValuePercantage(double number)
+		{
+			if(number < 0)
+			{
+				number = 0 - number;
+			}
+			
+			if(CheckIfPercantage(number))
+			{
+				return number;
+			}
+			
+			do
+			{
+				number = number/10;
+			} while(!CheckIfPercantage(number));
+			
+			return number;
+		}
+		
+		private boolean CheckIfPercantage(double number)
+		{
+			if(number > 0 && number <= 100)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
-		return false;*/
-		return list.contains(address);
-	}
-	
-	/*
-	 * metoda generujada losowo adress ip 192.*.*.* gdzie * jest przedzialem
-	 * od <0;255>
-	 * metoda zwraca wygenerowany adres w postaci ciagu znakow String 
-	 */
-	private String generateAddress() {
-		Random rand = new Random();
-		String first = defaultAddress;
-		//**** od 0 do 255 chyba
-		int second = rand.nextInt(169);
-		int third = rand.nextInt(256);
-		int fourth = rand.nextInt(256);
-		return first +"."+String.valueOf(second)+"."+String.valueOf(third)+"."+String.valueOf(fourth);
-	}
-	/*
-	 * konstruktor
-	 */
-	public Client() {
-		generateClientAddress();
-	}
-	/*
-	 * metoda generujaca adress ip
-	 */
-	private void generateClientAddress() {
-		String address="";
-		do {
-			address = generateAddress();
-		} while(checkIfAddressExist(address));
+		
+		
+		public Client Build()
+		{
+			return new Client(this);
+		}
 	}
 }
