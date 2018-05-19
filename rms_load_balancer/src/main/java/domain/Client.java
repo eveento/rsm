@@ -34,7 +34,7 @@ public class Client {
 	 * nie jestem pewny funkcji checkIfAddressExist
 	 */
 	private boolean checkIfAddressExist(String address) {
-		if(address.isEmpty())
+	/*	if(address.isEmpty())
 			return false;
 		else {
 			for(int i=0; i<list.size()-1;i++) {
@@ -46,7 +46,8 @@ public class Client {
 				}
 			}
 		}
-		return false;
+		return false;*/
+		return list.contains(address);
 	}
 	
 	/*
@@ -58,7 +59,7 @@ public class Client {
 		Random rand = new Random();
 		String first = defaultAddress;
 		//**** od 0 do 255 chyba
-		int second = rand.nextInt(256);
+		int second = rand.nextInt(169);
 		int third = rand.nextInt(256);
 		int fourth = rand.nextInt(256);
 		return first +"."+String.valueOf(second)+"."+String.valueOf(third)+"."+String.valueOf(fourth);
