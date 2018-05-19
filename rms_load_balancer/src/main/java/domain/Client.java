@@ -28,7 +28,12 @@ public class Client {
 		randomGenerator.nextGaussian();
 	}
 	
-	public Queue<Request> GenerateRequests()
+	public Queue<Request> Work()
+	{
+		return GenerateRequests();
+	}
+	
+	private Queue<Request> GenerateRequests()
 	{
 		Queue<Request> queue = new LinkedList<Request>();
 		
@@ -169,7 +174,6 @@ public class Client {
 				return false;
 			}
 		}
-		
 		
 		public Client Build()
 		{
