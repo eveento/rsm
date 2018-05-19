@@ -19,7 +19,6 @@ public class ServerUnit {
 		this.serverCapacity = builder.serverCapacity;
 		this.weight = builder.weight;
 		this.performanceFactor = builder.performanceFactor;
-		
 	}
 	
 	public void Work()
@@ -120,6 +119,11 @@ public class ServerUnit {
 		{
 			return new ServerUnit(this);
 		}
+		
+		@Override
+		public String toString() {
+			return "ServerBuilder [serverCapacity=" + serverCapacity + ", weight=" + weight + ", performanceFactor="
+					+ performanceFactor + "]";
+		}		
 	}
-	
 }

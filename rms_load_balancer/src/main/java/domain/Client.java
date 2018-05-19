@@ -183,5 +183,14 @@ public class Client {
 		{
 			return new Client(this);
 		}
+
+		@Override
+		public String toString() {
+			return "ClientBuilder [minimumWorkToDo=" + minimumWorkToDo + ", maximumWorkToDo=" + maximumWorkToDo
+					+ ", initialRequestsNumber=" + initialRequestsNumber + ", remainingRequestsNumber="
+					+ remainingRequestsNumber + ", requestsGenerationDensity=" + requestsGenerationDensity + "]";
+		}
+		
+		
 	}
 }

@@ -52,4 +52,10 @@ public class Request {
 		int fourth = rand.nextInt(255);
 		address = first +"."+String.valueOf(second)+"."+String.valueOf(third)+"."+String.valueOf(fourth);
 	}
+
+	@Override
+	public String toString() {
+		return "Request [requestId=" + requestId + ", initialWorkToDo=" + initialWorkToDo + ", remainingWorkToDo="
+				+ remainingWorkToDo + ", address=" + address + ", defaultAddress=" + defaultAddress + "]";
+	}
 }
