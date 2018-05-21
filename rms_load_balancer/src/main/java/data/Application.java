@@ -21,14 +21,6 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try 
-		{
-			test testow = new test();
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.toString());
-		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

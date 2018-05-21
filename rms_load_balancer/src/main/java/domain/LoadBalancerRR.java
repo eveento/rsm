@@ -7,13 +7,14 @@ import java.util.List;
  * Round robin
  * 
  */
-public class LoadBalancerRR extends LoadBalancer{
+public class LoadBalancerRR extends LoadBalancer
+{
 
-	public LoadBalancerRR(List<ServerUnit> _ListOfServers) 
+	public LoadBalancerRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
 	}
-	
+
 	public LoadBalancerRR()
 	{
 		super();
@@ -22,6 +23,6 @@ public class LoadBalancerRR extends LoadBalancer{
 	@Override
 	public void Work()
 	{
-		
+
 	}
 }
