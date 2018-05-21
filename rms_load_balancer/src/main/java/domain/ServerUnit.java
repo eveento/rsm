@@ -10,72 +10,61 @@ public class ServerUnit {
 	private int serverCapacity;
 	private double weight;
 	private double performanceFactor;
-	
-	private ServerUnit(ServerBuilder builder)
-	{
+
+	public ServerUnit(int _serverCapacity, double _weight, double _performanceFactor) {
 		this.serverId = ++ServerUnit.numerator;
 		this.ListOfRequests = new ArrayList<Request>();
-		
-		this.serverCapacity = builder.serverCapacity;
-		this.weight = builder.weight;
-		this.performanceFactor = builder.performanceFactor;
+
+		setServerCapacity(_serverCapacity);
+		setWeight(_weight);
+		setPerformanceFactor(_performanceFactor);
 	}
 	
-	public void Work()
-	{
+	public ServerUnit() {}
+
+	public void Work() {
 		WorkOnRequests();
 		RemoveDoneRequests();
 	}
-	
-	public boolean AddRequest(Request request)
-	{
-		if(CheckIfCanAcceptRequest())
-		{
+
+	public boolean AddRequest(Request request) {
+		if (CheckIfCanAcceptRequest()) {
 			ListOfRequests.add(request);
 			return true;
 		}
 		return false;
 	}
-	
-	private void WorkOnRequests()
-	{
-		for(Request request : ListOfRequests)
-		{
+
+	private void WorkOnRequests() {
+		for (Request request : ListOfRequests) {
 			request.Work(GetAmountOfWorkToDo());
 		}
 	}
-	
-	private void RemoveDoneRequests()
-	{
-		for(Request request : ListOfRequests)
-		{
-			if(request.CheckIfDone())
-			{
+
+	private void RemoveDoneRequests() {
+		for (Request request : ListOfRequests) {
+			if (request.CheckIfDone()) {
 				ListOfRequests.remove(request);
 			}
 		}
 	}
-	
-	private double GetAmountOfWorkToDo()
-	{
+
+	private double GetAmountOfWorkToDo() {
 		return performanceFactor;
 	}
-	
-	private boolean CheckIfCanAcceptRequest()
-	{
-		return (ListOfRequests.size() + 1 ) >= this.serverCapacity;
+
+	private boolean CheckIfCanAcceptRequest() {
+		return (ListOfRequests.size() + 1) >= this.serverCapacity;
 	}
-	
-	public double GetPercantageFill()
-	{
-		if(this.ListOfRequests.isEmpty())
-		{
+
+	public double GetPercantageFill() {
+		if (this.ListOfRequests.isEmpty()) {
 			return 1.0;
 		}
 
-		return this.serverCapacity/this.ListOfRequests.size();
+		return this.serverCapacity / this.ListOfRequests.size();
 	}
-	
+
 	public int getServerId() {
 		return serverId;
 	}
@@ -83,47 +72,36 @@ public class ServerUnit {
 	public List<Request> getListOfRequests() {
 		return ListOfRequests;
 	}
-	
+
 	public int getServerCapacity() {
 		return serverCapacity;
 	}
-	
+
 	public double getWeight() {
 		return weight;
 	}
-	
+
 	public double getPerformanceFactor() {
 		return performanceFactor;
 	}
-	
-	public class ServerBuilder
-	{
-		private int serverCapacity = 200;
-		private double weight = 1;
-		private double performanceFactor = 1;
-		
-		public ServerBuilder serverCapacity(int serverCapacity) {
-			this.serverCapacity = serverCapacity;
-			return this;
-		}
-		public ServerBuilder weight(double weight) {
-			this.weight = weight;
-			return this;
-		}
-		public ServerBuilder performanceFactor(double performanceFactor) {
-			this.performanceFactor = performanceFactor;
-			return this;
-		}
-		
-		public ServerUnit Build()
-		{
-			return new ServerUnit(this);
-		}
-		
-		@Override
-		public String toString() {
-			return "ServerBuilder [serverCapacity=" + serverCapacity + ", weight=" + weight + ", performanceFactor="
-					+ performanceFactor + "]";
-		}		
+
+	public void setServerCapacity(int serverCapacity) {
+		this.serverCapacity = serverCapacity;
 	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public void setPerformanceFactor(double performanceFactor) {
+		this.performanceFactor = performanceFactor;
+	}
+
+	@Override
+	public String toString() {
+		return "ServerUnit [serverId=" + serverId + ", ListOfRequests=" + ListOfRequests + ", serverCapacity="
+				+ serverCapacity + ", weight=" + weight + ", performanceFactor=" + performanceFactor + "]";
+	}
+
+
 }
