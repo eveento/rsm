@@ -5,6 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import domain.test;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import java.awt.FlowLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
 
 public class Application {
 
@@ -46,7 +53,7 @@ public class Application {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 855, 544);
 		frame.setLocation(50, 50);
 		frame.setTitle("Load Balancer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
