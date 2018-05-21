@@ -13,6 +13,11 @@ public class LoadBalancerRR extends LoadBalancer{
 	{
 		super(_ListOfServers);
 	}
+	
+	public LoadBalancerRR()
+	{
+		super();
+	}
 
 	@Override
 	public void Work()

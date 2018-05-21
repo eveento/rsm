@@ -14,6 +14,8 @@ public class LoadBalancer {
 		this.QueueOfRequests = new LinkedList<Request>();
 	}
 	
+	public LoadBalancer() {}
+	
 	public void Work()
 	{
 		
