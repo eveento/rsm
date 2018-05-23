@@ -42,6 +42,11 @@ public class Client
 	{
 		return GenerateRequests();
 	}
+	
+	public boolean CheckIfAllRequestsSent()
+	{
+		return remainingRequestsNumber <= 0;
+	}
 
 	public double getMinimumWorkToDo()
 	{
