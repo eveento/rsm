@@ -21,8 +21,7 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		test test1 = new test();
-		test1.Run();
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
