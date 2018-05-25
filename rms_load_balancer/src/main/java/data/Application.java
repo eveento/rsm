@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import domain.test;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
