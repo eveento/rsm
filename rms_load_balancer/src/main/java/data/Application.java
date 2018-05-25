@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.awt.GridLayout;
+import java.util.Random;
+
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import com.jgoodies.forms.layout.FormLayout;
@@ -20,7 +22,7 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

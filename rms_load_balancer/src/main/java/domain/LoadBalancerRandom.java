@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Random;
 
 /*
  * 
@@ -10,9 +11,12 @@ import java.util.List;
 public class LoadBalancerRandom extends LoadBalancer
 {
 
+	private Random random;
+
 	public LoadBalancerRandom(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		random = new Random();
 	}
 
 	public LoadBalancerRandom()
@@ -23,6 +27,13 @@ public class LoadBalancerRandom extends LoadBalancer
 	@Override
 	public void Work()
 	{
-
+		int chosenServerIndex = random.nextInt(this.numberOfServers);
+		while (CheckIfContinueWork())
+		{
+			if (ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest())
+			{
+				ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
+			}
+		}
 	}
 }
