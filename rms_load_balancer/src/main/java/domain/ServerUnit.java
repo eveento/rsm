@@ -29,6 +29,11 @@ public class ServerUnit
 		WorkOnRequests();
 		RemoveDoneRequests();
 	}
+	
+	public int GetNumberOfRequestsBeingServed()
+	{
+		return ListOfRequests.size();
+	}
 
 	public boolean AddRequest(Request request)
 	{
