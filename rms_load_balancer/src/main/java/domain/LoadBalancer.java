@@ -8,11 +8,13 @@ public class LoadBalancer
 {
 	protected List<ServerUnit> ListOfServers;
 	protected Queue<Request> QueueOfRequests;
+	protected int numberOfServers;
 
 	public LoadBalancer(List<ServerUnit> _ListOfServers)
 	{
 		this.ListOfServers = _ListOfServers;
 		this.QueueOfRequests = new LinkedList<Request>();
+		initNumberOfServers();
 	}
 	
 	public static LoadBalancer Build(TypeOfLoadBalancer typeOfLoadBalancer) throws Exception
@@ -81,5 +83,26 @@ public class LoadBalancer
 	public Queue<Request> getQueueOfRequests()
 	{
 		return QueueOfRequests;
+	}
+	
+	public int GetNumberOfRequestsWaitingToBeAssigned()
+	{
+		return QueueOfRequests.size();
+	}	
+	protected boolean AllServersFilledToMaximum()
+	{
+		for(ServerUnit item : ListOfServers)
+		{
+			if(item.CheckIfCanAcceptRequest())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void initNumberOfServers()
+	{
+		this.numberOfServers = this.ListOfServers.size();
 	}
 }
