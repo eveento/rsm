@@ -22,13 +22,15 @@ public class LoadBalancerRandom extends LoadBalancer
 	@Override
 	public void Work()
 	{
-		int chosenServerIndex = random.nextInt(this.numberOfServers);
+		int chosenServerIndex;
 		while (CheckIfContinueWork())
-		{
-			if (ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest())
+		{ 
+			do 
 			{
-				ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
-			}
+				chosenServerIndex = random.nextInt(this.numberOfServers);
+			}while(!ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest());
+			
+			ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
 		}
 	}
 }
