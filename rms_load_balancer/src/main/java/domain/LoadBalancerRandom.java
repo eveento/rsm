@@ -19,11 +19,6 @@ public class LoadBalancerRandom extends LoadBalancer
 		random = new Random();
 	}
 
-	public LoadBalancerRandom()
-	{
-		super();
-	}
-
 	@Override
 	public void Work()
 	{

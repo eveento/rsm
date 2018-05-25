@@ -15,11 +15,6 @@ public class LoadBalancerLC extends LoadBalancer
 		super(_ListOfServers);
 	}
 
-	public LoadBalancerLC()
-	{
-		super();
-	}
-
 	@Override
 	public void Work()
 	{

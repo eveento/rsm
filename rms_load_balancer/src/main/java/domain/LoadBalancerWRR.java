@@ -15,11 +15,6 @@ public class LoadBalancerWRR extends LoadBalancer
 		super(_ListOfServers);
 	}
 
-	public LoadBalancerWRR()
-	{
-		super();
-	}
-
 	@Override
 	public void Work()
 	{
