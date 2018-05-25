@@ -93,6 +93,11 @@ public class ServerUnit
 	{
 		return ListOfRequests;
 	}
+	
+	public boolean CheckIfCanAcceptRequest()
+	{
+		return (ListOfRequests.size() + 1) >= this.serverCapacity;
+	}
 
 	private void WorkOnRequests()
 	{
@@ -111,11 +116,6 @@ public class ServerUnit
 				ListOfRequests.remove(request);
 			}
 		}
-	}
-
-	private boolean CheckIfCanAcceptRequest()
-	{
-		return (ListOfRequests.size() + 1) >= this.serverCapacity;
 	}
 	
 	private double MakeNumberPositive(double number)
