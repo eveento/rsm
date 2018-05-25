@@ -16,34 +16,35 @@ public class LoadBalancer
 		this.QueueOfRequests = new LinkedList<Request>();
 		initNumberOfServers();
 	}
-	
+
 	public static LoadBalancer Build(TypeOfLoadBalancer typeOfLoadBalancer) throws Exception
 	{
 		return Build(typeOfLoadBalancer, null);
 	}
 
-	public static LoadBalancer Build(TypeOfLoadBalancer typeOfLoadBalancer, List<ServerUnit> listOfServers) throws Exception
+	public static LoadBalancer Build(TypeOfLoadBalancer typeOfLoadBalancer, List<ServerUnit> listOfServers)
+			throws Exception
 	{
 		LoadBalancer _LoadBalancer = null;
-		
-		switch(typeOfLoadBalancer)
+
+		switch (typeOfLoadBalancer)
 		{
 		case RoundRobin:
 			_LoadBalancer = new LoadBalancerRR(listOfServers);
 			break;
-			
+
 		case WeightedRoundRobin:
 			_LoadBalancer = new LoadBalancerWRR(listOfServers);
 			break;
-			
+
 		case LeastConnections:
 			_LoadBalancer = new LoadBalancerLC(listOfServers);
 			break;
-			
+
 		case WeightedLeastConnections:
 			_LoadBalancer = new LoadBalancerWLC(listOfServers);
 			break;
-			
+
 		case Random:
 			_LoadBalancer = new LoadBalancerRandom(listOfServers);
 			break;
@@ -51,13 +52,13 @@ public class LoadBalancer
 		default:
 			throw new Exception("Wrong type of load balancer");
 		}
-		
+
 		return _LoadBalancer;
 	}
 
 	public LoadBalancer()
 	{
-		
+
 	}
 
 	public void Work()
@@ -84,23 +85,29 @@ public class LoadBalancer
 	{
 		return QueueOfRequests;
 	}
-	
+
 	public int GetNumberOfRequestsWaitingToBeAssigned()
 	{
 		return QueueOfRequests.size();
-	}	
+	}
+
+	protected boolean CheckIfContinueWork()
+	{
+		return (!AllServersFilledToMaximum() || QueueOfRequests.isEmpty());
+	}
+
 	protected boolean AllServersFilledToMaximum()
 	{
-		for(ServerUnit item : ListOfServers)
+		for (ServerUnit item : ListOfServers)
 		{
-			if(item.CheckIfCanAcceptRequest())
+			if (item.CheckIfCanAcceptRequest())
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	private void initNumberOfServers()
 	{
 		this.numberOfServers = this.ListOfServers.size();

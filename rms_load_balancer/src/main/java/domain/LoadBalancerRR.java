@@ -12,39 +12,37 @@ public class LoadBalancerRR extends LoadBalancer
 {
 
 	private int chosenServerIndex;
-	
-	
+
 	public LoadBalancerRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
 		initChosenServerIndex();
 	}
-	
+
 	@Override
 	public void Work()
 	{
-		while(!AllServersFilledToMaximum() || QueueOfRequests.isEmpty())
+		while (CheckIfContinueWork())
 		{
 			SetNextIndex();
-			if(ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest())
+			if (ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest())
 			{
 				ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
 			}
 		}
 	}
-	
+
 	private void SetNextIndex()
 	{
-		if(chosenServerIndex + 1 >= numberOfServers)
+		if (chosenServerIndex + 1 >= numberOfServers)
 		{
 			chosenServerIndex = 0;
-		}
-		else
+		} else
 		{
 			chosenServerIndex++;
 		}
 	}
-	
+
 	private void initChosenServerIndex()
 	{
 		chosenServerIndex = -1;
