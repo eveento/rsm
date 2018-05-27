@@ -22,7 +22,20 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+		try 
+		{
+			test _test = new test();
+			_test.run();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+		}
+		finally
+		{
+			
+		}
+		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -32,7 +45,7 @@ public class Application {
 					e.printStackTrace();
 				}
 			}
-		});
+		}); */
 	}
 
 	/**

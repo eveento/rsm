@@ -24,7 +24,21 @@ public class Simulation
 		
 			for (ServerUnit serverUnit : listOfServers)
 			{
-			serverUnit.Work();
+				serverUnit.Work();
+			}
+		}
+	}
+	
+	public void RunOnceOneRequest()
+	{
+		if(!client.CheckIfAllRequestsSent())
+		{
+			loadBalancer.AddRequests(client.Work(1));
+			loadBalancer.Work();
+		
+			for (ServerUnit serverUnit : listOfServers)
+			{
+				serverUnit.Work();
 			}
 		}
 	}

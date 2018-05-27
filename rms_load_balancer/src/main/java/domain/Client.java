@@ -22,9 +22,9 @@ public class Client
 	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber,
 			double _requestsGenerationDensity)
 	{
-
-		setMinimumWorkToDo(_minimumWorkToDo);
+		
 		setMaximumWorkToDo(_maximumWorkToDo);
+		setMinimumWorkToDo(_minimumWorkToDo);
 		setInitialRequestsNumber(_initialRequestsNumber);
 		setRequestsGenerationDensity(_requestsGenerationDensity);
 
@@ -41,7 +41,12 @@ public class Client
 	public Queue<Request> Work()
 	{
 		return GenerateRequests();
-	}
+	}  
+	
+	public Queue<Request> Work(int howManyRequests)
+	{
+		return GenerateRequests(howManyRequests);
+	}  
 	
 	public boolean CheckIfAllRequestsSent()
 	{
@@ -110,6 +115,20 @@ public class Client
 		number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
 		return number;
 	}
+	
+	private Queue<Request> GenerateRequests(int howMany)
+	{
+		Queue<Request> queue = new LinkedList<Request>();
+
+		int numberOfRequests = howMany;
+
+		for (int i = 0; i < numberOfRequests; i++)
+		{
+			AddRequestToQueue(queue, GenerateRequest());
+		}
+
+		return queue;
+	}
 
 	private Queue<Request> GenerateRequests()
 	{
@@ -141,6 +160,7 @@ public class Client
 		if (remainingRequestsNumber - 1 >= 0)
 		{
 			queue.add(RequestToAdd);
+			remainingRequestsNumber--;
 			return true;
 		}
 		return false;
