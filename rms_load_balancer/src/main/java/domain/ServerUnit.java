@@ -34,6 +34,8 @@ public class ServerUnit
 	
 	public ServerUnit()
 	{
+		this.serverId = ++ServerUnit.numerator;
+		this.ListOfRequests = new ArrayList<Request>();
 	}
 
 	@Override
