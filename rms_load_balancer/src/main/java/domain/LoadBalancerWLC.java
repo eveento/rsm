@@ -20,6 +20,7 @@ public class LoadBalancerWLC extends LoadBalancer
 	{
 		super(_ListOfServers);
 		initTableOfServer();
+		initTempTableOfServer();
 	}
 
 	@Override
@@ -77,21 +78,31 @@ public class LoadBalancerWLC extends LoadBalancer
 			tableOfWeight.add((int) su.getWeight());
 		}
 	}
+	
+	private void initTempTableOfServer()
+	{
+		checkIfServerWas = new ArrayList<Integer>();
+		for (ServerUnit su : ListOfServers)
+		{
+			checkIfServerWas.add(-1);
+		}
+	}
 
 	private int SetNextIndexOfTable()
 	{
-
-		for (int i = 0; i < ListOfServers.size() - 1; i++)
+		for (int i = 0; i < ListOfServers.size()-1 ; i++)
 		{
-			for (int j = 0; j < checkIfServerWas.size() - 1; i++)
+			for (int j = 0; j < checkIfServerWas.size()-1 ; i++)
 			{
-				if (ListOfServers.get(i).getServerId() == checkIfServerWas.get(j)) // czy byl uzyty
-					break; // byl wiec konczymy obieg i przechodzimy dalej
+				if (ListOfServers.get(i).getServerId() == checkIfServerWas.get(j)) { // czy byl uzyty
+					continue; // byl wiec konczymy obieg i przechodzimy dalej
+				}
 				else
-				{
+				{	
 					chosenServerIndex = getIndexOfMaxValue(tableOfWeight);
 					addServerToUseList(ListOfServers.get(i).getServerId());
 				}
+				break;
 			}
 		}
 		return chosenServerIndex;
