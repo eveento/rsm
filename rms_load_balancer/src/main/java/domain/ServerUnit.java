@@ -11,16 +11,6 @@ public class ServerUnit
 	private int serverCapacity;
 	private double weight;
 	private double performanceFactor;
-
-	public ServerUnit(int _serverCapacity, double _weight, double _performanceFactor)
-	{
-		this.serverId = ++ServerUnit.numerator;
-		this.ListOfRequests = new ArrayList<Request>();
-
-		setServerCapacity(_serverCapacity);
-		setWeight(_weight);
-		setPerformanceFactor(_performanceFactor);
-	}
 	
 	private ServerUnit(Builder builder)
 	{
@@ -30,12 +20,6 @@ public class ServerUnit
 		this.serverCapacity = builder.serverCapacity;
 		this.weight = builder.weight;
 		this.performanceFactor = builder.performanceFactor;
-	}
-	
-	public ServerUnit()
-	{
-		this.serverId = ++ServerUnit.numerator;
-		this.ListOfRequests = new ArrayList<Request>();
 	}
 
 	@Override
