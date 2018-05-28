@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import domain.*;
-import domain.ServerUnit.ServerBuilder;
+import domain.ServerUnit.Builder;
 
 public class test
 {
@@ -23,7 +23,7 @@ public class test
 
 		listOfServers.add(
 				new ServerUnit
-				.ServerBuilder()
+				.Builder()
 				.ServerCapacity(100)
 				.Build());
 

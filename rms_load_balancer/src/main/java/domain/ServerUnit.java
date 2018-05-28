@@ -22,7 +22,7 @@ public class ServerUnit
 		setPerformanceFactor(_performanceFactor);
 	}
 	
-	private ServerUnit(ServerBuilder builder)
+	private ServerUnit(Builder builder)
 	{
 		this.serverId = ++ServerUnit.numerator;
 		this.ListOfRequests = new ArrayList<Request>();
@@ -171,25 +171,25 @@ public class ServerUnit
 				+ ", CheckIfCanAcceptRequest()=" + CheckIfCanAcceptRequest() + "]";
 	}
 	
-	public static class ServerBuilder
+	public static class Builder
 	{
 		private int serverCapacity = 100;
 		private double weight = 1.0;
 		private double performanceFactor = 1.0;
 		
-		public ServerBuilder ServerCapacity(int serverCapacity)
+		public Builder ServerCapacity(int serverCapacity)
 		{
 			this.serverCapacity = MakeNumberPositive(serverCapacity);
 			return this;
 		}
 
-		public ServerBuilder Weight(double weight)
+		public Builder Weight(double weight)
 		{
 			this.weight = MakeNumberPositive(weight);
 			return this;
 		}
 
-		public ServerBuilder PerformanceFactor(double performanceFactor)
+		public Builder PerformanceFactor(double performanceFactor)
 		{
 			this.performanceFactor = MakeNumberPositive(performanceFactor);
 			return this;
