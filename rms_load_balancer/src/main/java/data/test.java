@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import domain.*;
+import domain.ServerUnit.ServerBuilder;
 
 public class test
 {
@@ -20,10 +21,13 @@ public class test
 		System.out.println("Konstruktor testu");
 		listOfServers = new ArrayList<ServerUnit>();
 
-		for (int i = 0; i < 4; i++)
-			listOfServers.add(new ServerUnit(100, 1, 1));
+		listOfServers.add(
+				new ServerUnit
+				.ServerBuilder()
+				.ServerCapacity(100)
+				.Build());
 
-		System.out.println("Stworzylem serwery");
+		System.out.println("Stworzylem serwer(y)");
 
 		client = new Client(5, 5, 1000, 15, 0.0, false);
 
