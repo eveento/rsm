@@ -48,4 +48,13 @@ public class LoadBalancerLC extends LoadBalancer
 
 		return index;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "LoadBalancerLC [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
+				+ GetNumberOfRequestsWaitingToBeAssigned() + ", CheckIfContinueWork()=" + CheckIfContinueWork() + "]";
+	}
+	
+	
 }

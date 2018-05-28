@@ -10,8 +10,8 @@ import java.util.Random;
 public class Client
 {
 
-	private int minimumWorkToDo = 10;
-	private int maximumWorkToDo = 50;
+	private int minimumWorkToDo = 0;
+	private int maximumWorkToDo = Integer.MAX_VALUE;
 	private int initialRequestsNumber = 1000;
 	private int remainingRequestsNumber = 1000;
 	private int requestsInOneQueue = 10;
@@ -139,7 +139,15 @@ public class Client
 	private double SetRequestWorkToDO()
 	{
 		int number;
-		number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
+		if(maximumWorkToDo == minimumWorkToDo)
+		{
+			number = minimumWorkToDo;
+		}
+		else
+		{
+			number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
+		}
+		System.out.println(number);
 		return number;
 	}
 	
@@ -239,7 +247,7 @@ public class Client
 
 	private boolean CheckIfPercantage(double number)
 	{
-		if (number > 0 && number <= 1.0)
+		if (number >= 0 && number <= 1.0)
 		{
 			return true;
 		} 

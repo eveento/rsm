@@ -25,8 +25,8 @@ public class Application {
 		System.out.println("Aplikacja dziala");
 		try 
 		{
-			//test _test = new test();
-			//_test.run();
+			test _test = new test();
+			_test.run();
 		}
 		catch(Exception e)
 		{
@@ -34,7 +34,7 @@ public class Application {
 		}
 		finally
 		{
-			
+			System.out.println("Aplikacja zakonczyla dzialanie");
 		}
 		/*
 		EventQueue.invokeLater(new Runnable() {

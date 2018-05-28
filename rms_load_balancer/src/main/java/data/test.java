@@ -17,24 +17,35 @@ public class test
 	
 	public test() throws Exception
 	{
+		System.out.println("Konstruktor testu");
 		listOfServers = new ArrayList<ServerUnit>();
 		
 		for(int i = 0; i < 4; i++)
 			listOfServers.add(new ServerUnit(100, 1, 1));
 		
-		client = new Client(10, 20, 1000, 1, 0, false);
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.RoundRobin, listOfServers);
+		System.out.println("Stworzylem serwery");
+		
+		client = new Client(5, 5, 1000, 25, 0.0, false);
+		
+		System.out.println("Stworzylem klientow");
+		
+		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.Random, listOfServers);
+		
+		System.out.println("Stworzylem load balancer");
 		
 		simulation = new Simulation(client, loadBalancer, listOfServers);
+		
+		System.out.println("Stworzylem symulacje");
 	}
 	
 	public void run() throws IOException, InterruptedException
 	{
 		System.out.println("Zaczynamy");
-		int ile_razy = 100;
+		int ile_razy = 10;
 		for(int i = 0; i < ile_razy; i++)
 		{
-			simulation.RunOnceOneRequest();
+			simulation.RunOnce();
+			//simulation.RunOnceOneRequest();
 			//simulation.RunAll();
 		}
 		DuzoEnterow();

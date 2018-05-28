@@ -20,12 +20,14 @@ public class Simulation
 		if(!client.CheckIfAllRequestsSent())
 		{
 			loadBalancer.AddRequests(client.Work());
-			loadBalancer.Work();
+			//loadBalancer.Work();
 		
 			for (ServerUnit serverUnit : listOfServers)
 			{
 				serverUnit.Work();
 			}
+			
+			loadBalancer.Work();
 		}
 	}
 	
