@@ -29,11 +29,11 @@ public class test
 
 		System.out.println("Stworzylem serwer(y)");
 
-		client = new Client(5, 5, 1000, 15, 0.0, false);
+		client = new Client(5, 5, 1000, 35, 0.0, false);
 
 		System.out.println("Stworzylem klientow");
 
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.Random, listOfServers);
+		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.WeightedRoundRobin, listOfServers);
 
 		System.out.println("Stworzylem load balancer");
 
