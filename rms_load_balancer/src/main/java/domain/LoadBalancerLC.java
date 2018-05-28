@@ -48,4 +48,11 @@ public class LoadBalancerLC extends LoadBalancer
 
 		return index;
 	}
+
+	@Override
+	public String toString()
+	{
+		return super.toString() + " LoadBalancerLC [ChooseIndexOfTheServerWithTheLeastConnections()="
+				+ ChooseIndexOfTheServerWithTheLeastConnections() + "]";
+	}
 }

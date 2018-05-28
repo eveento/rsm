@@ -37,7 +37,8 @@ public class LoadBalancerRR extends LoadBalancer
 		if (chosenServerIndex + 1 >= numberOfServers)
 		{
 			chosenServerIndex = 0;
-		} else
+		} 
+		else
 		{
 			chosenServerIndex++;
 		}
@@ -47,4 +48,14 @@ public class LoadBalancerRR extends LoadBalancer
 	{
 		chosenServerIndex = -1;
 	}
+
+	@Override
+	public String toString()
+	{
+		return super.toString() + " LoadBalancerRR [chosenServerIndex=" + chosenServerIndex + "]";
+	}
+
+	
+	
+	
 }

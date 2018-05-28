@@ -10,24 +10,26 @@ import java.util.Random;
 public class Client
 {
 
-	private int minimumWorkToDo = 10;
-	private int maximumWorkToDo = 50;
+	private int minimumWorkToDo = 0;
+	private int maximumWorkToDo = Integer.MAX_VALUE;
 	private int initialRequestsNumber = 1000;
 	private int remainingRequestsNumber = 1000;
-	private double requestsGenerationDensity = 0.1; // percantage ( 0 < x <= 1)
+	private int requestsInOneQueue = 10;
+	private double percentageRandomizeOfRequests = 0;
+	private boolean randomizeNumberOfRequests = false;
 	private final int maximumNumberOfRequestsInOneQueue = 100;
-	private final double gaussianModifier = 0.25;
 	private Random randomGenerator;
 
 	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber,
-			double _requestsGenerationDensity)
+			int _requestsInOneQueue, double _percentageRandomizeOfRequests, boolean _randomizeNumberOfRequests) 
 	{
-
-		setMinimumWorkToDo(_minimumWorkToDo);
 		setMaximumWorkToDo(_maximumWorkToDo);
+		setMinimumWorkToDo(_minimumWorkToDo);
 		setInitialRequestsNumber(_initialRequestsNumber);
-		setRequestsGenerationDensity(_requestsGenerationDensity);
-
+		setRequestsInOneQueue(_requestsInOneQueue);
+		setPercentageRandomizeOfRequests(_percentageRandomizeOfRequests);
+		setRandomizeNumberOfRequests(_randomizeNumberOfRequests);
+			
 		this.randomGenerator = new Random();
 		randomGenerator.nextGaussian();
 	}
@@ -41,19 +43,54 @@ public class Client
 	public Queue<Request> Work()
 	{
 		return GenerateRequests();
-	}
+	}  
+	
+	public Queue<Request> Work(int howManyRequests)
+	{
+		return GenerateRequests(howManyRequests);
+	}  
 	
 	public boolean CheckIfAllRequestsSent()
 	{
 		return remainingRequestsNumber <= 0;
 	}
 
-	public double getMinimumWorkToDo()
+	public int getRequestsInOneQueue()
+	{
+		return requestsInOneQueue;
+	}
+
+	public void setRequestsInOneQueue(int requestsInOneQueue)
+	{
+		this.requestsInOneQueue = MakePositive(requestsInOneQueue);
+	}
+
+	public double getPercentageRandomizeOfRequests()
+	{
+		return percentageRandomizeOfRequests;
+	}
+
+	public void setPercentageRandomizeOfRequests(double percentageRandomizeOfRequests)
+	{
+		this.percentageRandomizeOfRequests = MakeValuePercantage(percentageRandomizeOfRequests);
+	}
+
+	public boolean isRandomizeNumberOfRequests()
+	{
+		return randomizeNumberOfRequests;
+	}
+
+	public void setRandomizeNumberOfRequests(boolean randomizeNumberOfRequests)
+	{
+		this.randomizeNumberOfRequests = randomizeNumberOfRequests;
+	}
+
+	public int getMinimumWorkToDo()
 	{
 		return minimumWorkToDo;
 	}
 
-	public double getMaximumWorkToDo()
+	public int getMaximumWorkToDo()
 	{
 		return maximumWorkToDo;
 	}
@@ -68,9 +105,9 @@ public class Client
 		return remainingRequestsNumber;
 	}
 
-	public double getRequestsGenerationDensity()
+	public int getMaximumNumberOfRequestsInOneQueue()
 	{
-		return requestsGenerationDensity;
+		return maximumNumberOfRequestsInOneQueue;
 	}
 
 	public void setMinimumWorkToDo(int minimumWorkToDo)
@@ -99,16 +136,32 @@ public class Client
 		this.remainingRequestsNumber = this.initialRequestsNumber;
 	}
 
-	public void setRequestsGenerationDensity(double requestsGenerationDensity)
-	{
-		this.requestsGenerationDensity = MakeValuePercantage(requestsGenerationDensity);
-	}
-
 	private double SetRequestWorkToDO()
 	{
 		int number;
-		number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
+		if(maximumWorkToDo == minimumWorkToDo)
+		{
+			number = minimumWorkToDo;
+		}
+		else
+		{
+			number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
+		}
 		return number;
+	}
+	
+	private Queue<Request> GenerateRequests(int howMany)
+	{
+		Queue<Request> queue = new LinkedList<Request>();
+
+		int numberOfRequests = howMany;
+
+		for (int i = 0; i < numberOfRequests; i++)
+		{
+			AddRequestToQueue(queue, GenerateRequest());
+		}
+
+		return queue;
 	}
 
 	private Queue<Request> GenerateRequests()
@@ -127,13 +180,20 @@ public class Client
 
 	private int GenerateNumberOfRequestsInQueue()
 	{
-		int number = (int) (requestsGenerationDensity * maximumNumberOfRequestsInOneQueue);
-		number = (int) (number * (randomGenerator.nextGaussian() + gaussianModifier));
-		if (number > maximumNumberOfRequestsInOneQueue)
+		int number = this.requestsInOneQueue + GenerateAdditionalNumberOfRequestsInQueue();
+		return MakePositive(number);
+	}
+	
+	private int GenerateAdditionalNumberOfRequestsInQueue()
+	{
+		if(!randomizeNumberOfRequests)
 		{
-			number = maximumNumberOfRequestsInOneQueue;
+			return 0;
 		}
-		return number;
+		
+		int randomNumber = randomGenerator.nextInt((int)(requestsInOneQueue * percentageRandomizeOfRequests));
+		randomNumber = 2 * randomNumber - (int)(requestsInOneQueue * percentageRandomizeOfRequests);
+		return randomNumber;
 	}
 
 	private boolean AddRequestToQueue(Queue<Request> queue, Request RequestToAdd)
@@ -141,6 +201,7 @@ public class Client
 		if (remainingRequestsNumber - 1 >= 0)
 		{
 			queue.add(RequestToAdd);
+			remainingRequestsNumber--;
 			return true;
 		}
 		return false;
@@ -185,10 +246,11 @@ public class Client
 
 	private boolean CheckIfPercantage(double number)
 	{
-		if (number > 0 && number <= 100)
+		if (number >= 0 && number <= 1.0)
 		{
 			return true;
-		} else
+		} 
+		else
 		{
 			return false;
 		}
@@ -198,10 +260,8 @@ public class Client
 	public String toString()
 	{
 		return "Client [minimumWorkToDo=" + minimumWorkToDo + ", maximumWorkToDo=" + maximumWorkToDo
-				+ ", initialRequestsNumber=" + initialRequestsNumber + ", remainingRequestsNumber="
-				+ remainingRequestsNumber + ", requestsGenerationDensity=" + requestsGenerationDensity
-				+ ", maximumNumberOfRequestsInOneQueue=" + maximumNumberOfRequestsInOneQueue + ", gaussianModifier="
-				+ gaussianModifier + ", randomGenerator=" + randomGenerator + "]";
+				+ ", remainingRequestsNumber=" + remainingRequestsNumber + ", requestsInOneQueue=" + requestsInOneQueue
+				+ ", percentageRandomizeOfRequests=" + percentageRandomizeOfRequests + ", randomizeNumberOfRequests="
+				+ randomizeNumberOfRequests + "]";
 	}
-
 }

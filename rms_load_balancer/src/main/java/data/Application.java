@@ -22,7 +22,21 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+		System.out.println("Aplikacja dziala");
+		try 
+		{
+			test _test = new test();
+			_test.run();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+		}
+		finally
+		{
+			System.out.println("Aplikacja zakonczyla dzialanie");
+		}
+		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -32,7 +46,7 @@ public class Application {
 					e.printStackTrace();
 				}
 			}
-		});
+		}); */
 	}
 
 	/**
