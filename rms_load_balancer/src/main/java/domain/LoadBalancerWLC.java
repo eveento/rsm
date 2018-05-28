@@ -15,6 +15,7 @@ public class LoadBalancerWLC extends LoadBalancer
 	private List<Integer> tableOfWeight;
 	private List<Integer> checkIfServerWas = new ArrayList<Integer>();
 	private int chosenServerIndex;
+
 	public LoadBalancerWLC(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
@@ -55,33 +56,44 @@ public class LoadBalancerWLC extends LoadBalancer
 
 		return index;
 	}
-	private void addServerToUseList( int index) {
-		checkIfServerWas.add(index); //dodaje do listy uzytych
+
+	private void addServerToUseList(int index)
+	{
+		checkIfServerWas.add(index); // dodaje do listy uzytych
 	}
-	private int getIndexOfMaxValue(List<Integer> tableOfWeight) {
+
+	private int getIndexOfMaxValue(List<Integer> tableOfWeight)
+	{
 
 		addServerToUseList(tableOfWeight.indexOf(Collections.max(tableOfWeight)));
 		return tableOfWeight.indexOf(Collections.max(tableOfWeight));
 	}
-	private void initTableOfServer() {
+
+	private void initTableOfServer()
+	{
 		tableOfWeight = new ArrayList<Integer>();
-		for(ServerUnit su : ListOfServers) {
+		for (ServerUnit su : ListOfServers)
+		{
 			tableOfWeight.add((int) su.getWeight());
-		}	
+		}
 	}
-	
-	private int SetNextIndexOfTable() {
-		
-		for(int i=0;i<ListOfServers.size()-1;i++) {
-			for(int j=0;j<checkIfServerWas.size()-1;i++) {
-				if(ListOfServers.get(i).getServerId()== checkIfServerWas.get(j)) //czy byl uzyty
-					break; //byl wiec konczymy obieg i przechodzimy dalej
-				else {
-					chosenServerIndex=getIndexOfMaxValue(tableOfWeight);
+
+	private int SetNextIndexOfTable()
+	{
+
+		for (int i = 0; i < ListOfServers.size() - 1; i++)
+		{
+			for (int j = 0; j < checkIfServerWas.size() - 1; i++)
+			{
+				if (ListOfServers.get(i).getServerId() == checkIfServerWas.get(j)) // czy byl uzyty
+					break; // byl wiec konczymy obieg i przechodzimy dalej
+				else
+				{
+					chosenServerIndex = getIndexOfMaxValue(tableOfWeight);
 					addServerToUseList(ListOfServers.get(i).getServerId());
-				}				
+				}
 			}
-		}			
+		}
 		return chosenServerIndex;
 	}
 }

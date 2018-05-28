@@ -20,8 +20,8 @@ public class Client
 	private final int maximumNumberOfRequestsInOneQueue = 100;
 	private Random randomGenerator;
 
-	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber,
-			int _requestsInOneQueue, double _percentageRandomizeOfRequests, boolean _randomizeNumberOfRequests) 
+	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber, int _requestsInOneQueue,
+			double _percentageRandomizeOfRequests, boolean _randomizeNumberOfRequests)
 	{
 		setMaximumWorkToDo(_maximumWorkToDo);
 		setMinimumWorkToDo(_minimumWorkToDo);
@@ -29,7 +29,7 @@ public class Client
 		setRequestsInOneQueue(_requestsInOneQueue);
 		setPercentageRandomizeOfRequests(_percentageRandomizeOfRequests);
 		setRandomizeNumberOfRequests(_randomizeNumberOfRequests);
-			
+
 		this.randomGenerator = new Random();
 		randomGenerator.nextGaussian();
 	}
@@ -43,13 +43,13 @@ public class Client
 	public Queue<Request> Work()
 	{
 		return GenerateRequests();
-	}  
-	
+	}
+
 	public Queue<Request> Work(int howManyRequests)
 	{
 		return GenerateRequests(howManyRequests);
-	}  
-	
+	}
+
 	public boolean CheckIfAllRequestsSent()
 	{
 		return remainingRequestsNumber <= 0;
@@ -139,17 +139,16 @@ public class Client
 	private double SetRequestWorkToDO()
 	{
 		int number;
-		if(maximumWorkToDo == minimumWorkToDo)
+		if (maximumWorkToDo == minimumWorkToDo)
 		{
 			number = minimumWorkToDo;
-		}
-		else
+		} else
 		{
 			number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
 		}
 		return number;
 	}
-	
+
 	private Queue<Request> GenerateRequests(int howMany)
 	{
 		Queue<Request> queue = new LinkedList<Request>();
@@ -183,16 +182,16 @@ public class Client
 		int number = this.requestsInOneQueue + GenerateAdditionalNumberOfRequestsInQueue();
 		return MakePositive(number);
 	}
-	
+
 	private int GenerateAdditionalNumberOfRequestsInQueue()
 	{
-		if(!randomizeNumberOfRequests)
+		if (!randomizeNumberOfRequests)
 		{
 			return 0;
 		}
-		
-		int randomNumber = randomGenerator.nextInt((int)(requestsInOneQueue * percentageRandomizeOfRequests));
-		randomNumber = 2 * randomNumber - (int)(requestsInOneQueue * percentageRandomizeOfRequests);
+
+		int randomNumber = randomGenerator.nextInt((int) (requestsInOneQueue * percentageRandomizeOfRequests));
+		randomNumber = 2 * randomNumber - (int) (requestsInOneQueue * percentageRandomizeOfRequests);
 		return randomNumber;
 	}
 
@@ -249,8 +248,7 @@ public class Client
 		if (number >= 0 && number <= 1.0)
 		{
 			return true;
-		} 
-		else
+		} else
 		{
 			return false;
 		}

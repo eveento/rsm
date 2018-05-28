@@ -14,52 +14,48 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 
-public class Application {
+public class Application
+{
 
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		System.out.println("Aplikacja dziala");
-		try 
+		try
 		{
 			test _test = new test();
 			_test.run();
-		}
-		catch(Exception e)
+		} catch (Exception e)
 		{
 			System.out.println(e.toString());
-		}
-		finally
+		} finally
 		{
 			System.out.println("Aplikacja zakonczyla dzialanie");
 		}
 		/*
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Application window = new Application();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}); */
+		 * EventQueue.invokeLater(new Runnable() { public void run() { try { Application
+		 * window = new Application(); window.frame.setVisible(true); } catch (Exception
+		 * e) { e.printStackTrace(); } } });
+		 */
 	}
 
 	/**
 	 * Create the application.
 	 */
-	public Application() {
+	public Application()
+	{
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize()
+	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 855, 544);
 		frame.setLocation(50, 50);

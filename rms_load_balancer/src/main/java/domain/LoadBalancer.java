@@ -94,9 +94,9 @@ public class LoadBalancer
 	protected boolean CheckIfContinueWork()
 	{
 		boolean result = false;
-		if(!QueueOfRequests.isEmpty())
+		if (!QueueOfRequests.isEmpty())
 		{
-			if(!AllServersFilledToMaximum())
+			if (!AllServersFilledToMaximum())
 			{
 				result = true;
 			}
@@ -127,6 +127,5 @@ public class LoadBalancer
 		return "LoadBalancer [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
 				+ GetNumberOfRequestsWaitingToBeAssigned() + "]";
 	}
-	
-	
+
 }

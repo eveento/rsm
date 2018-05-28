@@ -22,14 +22,16 @@ public class ServerUnit
 		setPerformanceFactor(_performanceFactor);
 	}
 
-	public ServerUnit() {}
+	public ServerUnit()
+	{
+	}
 
 	public void Work()
 	{
 		WorkOnRequests();
 		RemoveDoneRequests();
 	}
-	
+
 	public int GetNumberOfRequestsBeingServed()
 	{
 		return ListOfRequests.size();
@@ -51,7 +53,7 @@ public class ServerUnit
 		{
 			return 0.0;
 		}
-		return (double)GetNumberOfRequestsBeingServed() / this.serverCapacity;
+		return (double) GetNumberOfRequestsBeingServed() / this.serverCapacity;
 	}
 
 	public int getServerCapacity()
@@ -98,7 +100,7 @@ public class ServerUnit
 	{
 		return ListOfRequests;
 	}
-	
+
 	public boolean CheckIfCanAcceptRequest()
 	{
 		return (ListOfRequests.size() + 1) <= this.serverCapacity;
@@ -116,27 +118,25 @@ public class ServerUnit
 	{
 		ListOfRequests.removeIf(filter -> filter.CheckIfDone());
 	}
-	
+
 	private double MakeNumberPositive(double number)
 	{
-		if(number >= 0)
+		if (number >= 0)
 		{
 			return number;
-		}
-		else if(number < 0)
+		} else if (number < 0)
 		{
 			return -number;
 		}
 		return 1.0;
 	}
-	
+
 	private int MakeNumberPositive(int number)
 	{
-		if(number >= 0)
+		if (number >= 0)
 		{
 			return number;
-		}
-		else if(number < 0)
+		} else if (number < 0)
 		{
 			return -number;
 		}
@@ -151,7 +151,5 @@ public class ServerUnit
 				+ GetNumberOfRequestsBeingServed() + ", GetPercantageFill()=" + GetPercantageFill()
 				+ ", CheckIfCanAcceptRequest()=" + CheckIfCanAcceptRequest() + "]";
 	}
-
-	
 
 }
