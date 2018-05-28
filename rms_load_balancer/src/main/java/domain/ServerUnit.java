@@ -47,11 +47,11 @@ public class ServerUnit
 
 	public double GetPercantageFill()
 	{
-		if (this.ListOfRequests.isEmpty())
+		if (this.serverCapacity <= 0)
 		{
-			return 1.0;
+			return 0.0;
 		}
-		return this.serverCapacity / this.ListOfRequests.size();
+		return (double)GetNumberOfRequestsBeingServed() / this.serverCapacity;
 	}
 
 	public int getServerCapacity()
@@ -101,7 +101,7 @@ public class ServerUnit
 	
 	public boolean CheckIfCanAcceptRequest()
 	{
-		return (ListOfRequests.size() + 1) >= this.serverCapacity;
+		return (ListOfRequests.size() + 1) <= this.serverCapacity;
 	}
 
 	private void WorkOnRequests()
@@ -114,13 +114,7 @@ public class ServerUnit
 
 	private void RemoveDoneRequests()
 	{
-		for (Request request : ListOfRequests)
-		{
-			if (request.CheckIfDone())
-			{
-				ListOfRequests.remove(request);
-			}
-		}
+		ListOfRequests.removeIf(filter -> filter.CheckIfDone());
 	}
 	
 	private double MakeNumberPositive(double number)
@@ -152,8 +146,12 @@ public class ServerUnit
 	@Override
 	public String toString()
 	{
-		return "ServerUnit [serverId=" + serverId + ", ListOfRequests=" + ListOfRequests + ", serverCapacity="
-				+ serverCapacity + ", weight=" + weight + ", performanceFactor=" + performanceFactor + "]";
+		return "ServerUnit [serverId=" + serverId + ", serverCapacity=" + serverCapacity + ", weight=" + weight
+				+ ", performanceFactor=" + performanceFactor + ", GetNumberOfRequestsBeingServed()="
+				+ GetNumberOfRequestsBeingServed() + ", GetPercantageFill()=" + GetPercantageFill()
+				+ ", CheckIfCanAcceptRequest()=" + CheckIfCanAcceptRequest() + "]";
 	}
+
+	
 
 }

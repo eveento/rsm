@@ -93,7 +93,15 @@ public class LoadBalancer
 
 	protected boolean CheckIfContinueWork()
 	{
-		return (!AllServersFilledToMaximum() || QueueOfRequests.isEmpty());
+		boolean result = false;
+		if(!QueueOfRequests.isEmpty())
+		{
+			if(!AllServersFilledToMaximum())
+			{
+				result = true;
+			}
+		}
+		return result;
 	}
 
 	protected boolean AllServersFilledToMaximum()
