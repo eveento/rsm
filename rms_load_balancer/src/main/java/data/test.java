@@ -27,13 +27,27 @@ public class test
 				.ServerCapacity(100)
 				.Build());
 
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Build()); 
+		
 		System.out.println("Stworzylem serwer(y)");
-
-		client = new Client(5, 5, 1000, 35, 0.0, false);
+		
+		client = new Client
+				.Builder()
+				.MinimumWorkToDo(5)
+				.MaximumWorkToDo(5)
+				.InitialRequestsNumber(1000)
+				.RequestsInOneQueue(35)
+				.PercentageRandomizeOfRequests(0.0)
+				.RandomizeNumberOfRequests(false)
+				.Build();
 
 		System.out.println("Stworzylem klientow");
 
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.WeightedRoundRobin, listOfServers);
+		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.Random, listOfServers);
 
 		System.out.println("Stworzylem load balancer");
 
