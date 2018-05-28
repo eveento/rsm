@@ -147,7 +147,6 @@ public class Client
 		{
 			number = randomGenerator.nextInt(maximumWorkToDo - minimumWorkToDo) + minimumWorkToDo;
 		}
-		System.out.println(number);
 		return number;
 	}
 	
