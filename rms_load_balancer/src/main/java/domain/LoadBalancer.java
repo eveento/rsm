@@ -120,4 +120,13 @@ public class LoadBalancer
 	{
 		this.numberOfServers = this.ListOfServers.size();
 	}
+
+	@Override
+	public String toString()
+	{
+		return "LoadBalancer [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
+				+ GetNumberOfRequestsWaitingToBeAssigned() + "]";
+	}
+	
+	
 }

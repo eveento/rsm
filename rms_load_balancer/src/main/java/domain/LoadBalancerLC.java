@@ -52,9 +52,7 @@ public class LoadBalancerLC extends LoadBalancer
 	@Override
 	public String toString()
 	{
-		return "LoadBalancerLC [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
-				+ GetNumberOfRequestsWaitingToBeAssigned() + ", CheckIfContinueWork()=" + CheckIfContinueWork() + "]";
+		return super.toString() + " LoadBalancerLC [ChooseIndexOfTheServerWithTheLeastConnections()="
+				+ ChooseIndexOfTheServerWithTheLeastConnections() + "]";
 	}
-	
-	
 }

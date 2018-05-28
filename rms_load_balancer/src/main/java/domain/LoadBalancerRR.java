@@ -52,10 +52,10 @@ public class LoadBalancerRR extends LoadBalancer
 	@Override
 	public String toString()
 	{
-		return "LoadBalancerRR [chosenServerIndex=" + chosenServerIndex + ", numberOfServers=" + numberOfServers
-				+ ", GetNumberOfRequestsWaitingToBeAssigned()=" + GetNumberOfRequestsWaitingToBeAssigned()
-				+ ", CheckIfContinueWork()=" + CheckIfContinueWork() + "]";
+		return super.toString() + " LoadBalancerRR [chosenServerIndex=" + chosenServerIndex + "]";
 	}
+
+	
 	
 	
 }

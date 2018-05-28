@@ -33,13 +33,4 @@ public class LoadBalancerRandom extends LoadBalancer
 			ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
 		}
 	}
-
-	@Override
-	public String toString()
-	{
-		return "LoadBalancerRandom [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
-				+ GetNumberOfRequestsWaitingToBeAssigned() + ", CheckIfContinueWork()=" + CheckIfContinueWork() + "]";
-	}
-	
-	
 }
