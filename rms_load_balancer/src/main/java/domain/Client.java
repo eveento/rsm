@@ -10,14 +10,14 @@ import java.util.Random;
 public class Client
 {
 
-	private int minimumWorkToDo = 0;
-	private int maximumWorkToDo = Integer.MAX_VALUE;
-	private int initialRequestsNumber = 1000;
-	private int remainingRequestsNumber = 1000;
-	private int requestsInOneQueue = 10;
-	private double percentageRandomizeOfRequests = 0;
-	private boolean randomizeNumberOfRequests = false;
-	private final int maximumNumberOfRequestsInOneQueue = 100;
+	private int minimumWorkToDo;
+	private int maximumWorkToDo;
+	private int initialRequestsNumber;
+	private int remainingRequestsNumber;
+	private int requestsInOneQueue;
+	private double percentageRandomizeOfRequests;
+	private boolean randomizeNumberOfRequests;
+	private final int maximumNumberOfRequestsInOneQueue = 10000;
 	private Random randomGenerator;
 
 	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber, int _requestsInOneQueue,
@@ -30,11 +30,22 @@ public class Client
 		setPercentageRandomizeOfRequests(_percentageRandomizeOfRequests);
 		setRandomizeNumberOfRequests(_randomizeNumberOfRequests);
 
-		this.randomGenerator = new Random();
-		randomGenerator.nextGaussian();
+		CreateRandomizer();
+	}
+	
+	private Client(Builder builder)
+	{
+		setMaximumWorkToDo(builder.maximumWorkToDo);
+		setMinimumWorkToDo(builder.minimumWorkToDo);
+		setInitialRequestsNumber(builder.initialRequestsNumber);
+		setRequestsInOneQueue(builder.requestsInOneQueue);
+		setPercentageRandomizeOfRequests(builder.percentageRandomizeOfRequests);
+		setRandomizeNumberOfRequests(builder.randomizeNumberOfRequests);
+		
+		CreateRandomizer();
 	}
 
-	public Client()
+	private void CreateRandomizer()
 	{
 		this.randomGenerator = new Random();
 		randomGenerator.nextGaussian();
@@ -261,5 +272,56 @@ public class Client
 				+ ", remainingRequestsNumber=" + remainingRequestsNumber + ", requestsInOneQueue=" + requestsInOneQueue
 				+ ", percentageRandomizeOfRequests=" + percentageRandomizeOfRequests + ", randomizeNumberOfRequests="
 				+ randomizeNumberOfRequests + "]";
+	}
+	
+	public static class Builder
+	{
+		private int minimumWorkToDo = 1;
+		private int maximumWorkToDo = 10;
+		private int initialRequestsNumber = 1000;
+		private int requestsInOneQueue = 10;
+		private double percentageRandomizeOfRequests = 0;
+		private boolean randomizeNumberOfRequests = false;
+		
+		public Builder MinimumWorkToDo(int minimumWorkToDo)
+		{
+			this.minimumWorkToDo = minimumWorkToDo;
+			return this;
+		}
+
+		public Builder MaximumWorkToDo(int maximumWorkToDo)
+		{
+			this.maximumWorkToDo = maximumWorkToDo;
+			return this;
+		}
+
+		public Builder InitialRequestsNumber(int initialRequestsNumber)
+		{
+			this.initialRequestsNumber = initialRequestsNumber;
+			return this;
+		}
+
+		public Builder RequestsInOneQueue(int requestsInOneQueue)
+		{
+			this.requestsInOneQueue = requestsInOneQueue;
+			return this;
+		}
+
+		public Builder PercentageRandomizeOfRequests(double percentageRandomizeOfRequests)
+		{
+			this.percentageRandomizeOfRequests = percentageRandomizeOfRequests;
+			return this;
+		}
+
+		public Builder RandomizeNumberOfRequests(boolean randomizeNumberOfRequests)
+		{
+			this.randomizeNumberOfRequests = randomizeNumberOfRequests;
+			return this;
+		}
+
+		public Client Build()
+		{
+			return new Client(this);
+		}
 	}
 }
