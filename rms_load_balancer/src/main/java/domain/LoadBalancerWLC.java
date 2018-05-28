@@ -19,6 +19,7 @@ public class LoadBalancerWLC extends LoadBalancer
 	public LoadBalancerWLC(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.WeightedLeastConnections;
 		initTableOfServer();
 		initTempTableOfServer();
 	}

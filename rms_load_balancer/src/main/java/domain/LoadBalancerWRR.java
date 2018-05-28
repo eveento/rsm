@@ -19,6 +19,7 @@ public class LoadBalancerWRR extends LoadBalancer
 	public LoadBalancerWRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.WeightedRoundRobin;
 		initChosenServerIndex();
 		initTableOfServer();
 		initTempTableOfServer();
