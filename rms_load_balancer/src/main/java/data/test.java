@@ -3,6 +3,7 @@ package data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import domain.*;
@@ -21,7 +22,7 @@ public class test
 		for(int i = 0; i < 4; i++)
 			listOfServers.add(new ServerUnit(100, 1, 1));
 		
-		client = new Client(40, 70, 10000, 0.35);
+		client = new Client(10, 20, 1000, 1, 0, false);
 		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.RoundRobin, listOfServers);
 		
 		simulation = new Simulation(client, loadBalancer, listOfServers);
@@ -40,6 +41,7 @@ public class test
 		System.out.println("Po : " + ile_razy + " iteracjach");
 		print();
 	}
+	
 	
 	private void print()
 	{

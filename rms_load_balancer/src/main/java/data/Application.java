@@ -22,10 +22,11 @@ public class Application {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println("Aplikacja dziala");
 		try 
 		{
-			test _test = new test();
-			_test.run();
+			//test _test = new test();
+			//_test.run();
 		}
 		catch(Exception e)
 		{
