@@ -47,7 +47,7 @@ public class test
 
 		System.out.println("Stworzylem klientow");
 
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.Random, listOfServers);
+		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.WeightedRoundRobin, listOfServers);
 
 		System.out.println("Stworzylem load balancer");
 

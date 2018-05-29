@@ -12,17 +12,20 @@ import java.util.List;
 public class LoadBalancerWRR extends LoadBalancer
 {
 	private int chosenServerIndex;
-	private int temp;
-	private List<Integer> tableOfWeight=new ArrayList<Integer>();
-	private List<Integer> checkIfServerWas = new ArrayList<Integer>();
+	private Integer temp;
+	//private List<Integer> tableOfWeight=new ArrayList<Integer>();
+	//private List<Integer> checkIfServerWas = new ArrayList<Integer>();
+
 
 	public LoadBalancerWRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
 		typeOfLoadBalancer = typeOfLoadBalancer.WeightedRoundRobin;
 		initChosenServerIndex();
-		initTableOfServer();
-		initTempTableOfServer();
+
+	/*	initTableOfServer();
+		initTempTableOfServer();*/
+
 	}
 
 	@Override
@@ -37,7 +40,8 @@ public class LoadBalancerWRR extends LoadBalancer
 			if (ListOfServers.get(chosenServerIndex).CheckIfCanAcceptRequest())
 			{	
 					ListOfServers.get(chosenServerIndex).AddRequest(QueueOfRequests.poll());
-			}	}
+			}	
+			}
 	}
 
 	private void SetNextIndex()
@@ -50,12 +54,13 @@ public class LoadBalancerWRR extends LoadBalancer
 			chosenServerIndex++;
 		}
 	}
-	private void addServerToUseList(int index)
+/*	private void addServerToUseList(int index)
+
 	{
 		checkIfServerWas.add(index); // dodaje do listy uzytych
 	}
-
-	private int SetNextIndexOfTable()
+*/
+	/*private int SetNextIndexOfTable()
 	{
 		for (int i = 0; i < ListOfServers.size() - 1; i++)
 		{
@@ -73,13 +78,13 @@ public class LoadBalancerWRR extends LoadBalancer
 			}
 		}
 		return chosenServerIndex;
-	}
+	}*/
 
 	private void initChosenServerIndex()
 	{
 		chosenServerIndex = -1;
 	}
-
+/*
 	private void initTableOfServer()
 	{
 		//tableOfWeight = new ArrayList<Integer>();
@@ -109,5 +114,5 @@ public class LoadBalancerWRR extends LoadBalancer
 		{
 			checkIfServerWas.add(0);
 		}
-	}
+	}*/
 }
