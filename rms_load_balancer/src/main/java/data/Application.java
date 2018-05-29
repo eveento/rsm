@@ -9,7 +9,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import java.awt.FlowLayout;
-
+import javax.swing.SpringLayout;
 
 public class Application
 {
@@ -33,11 +33,22 @@ public class Application
 		{
 			System.out.println("Aplikacja zakonczyla dzialanie");
 		}
-		/*
-		 * EventQueue.invokeLater(new Runnable() { public void run() { try { Application
-		 * window = new Application(); window.frame.setVisible(true); } catch (Exception
-		 * e) { e.printStackTrace(); } } });
-		 */
+
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
+					Application window = new Application();
+					window.frame.setVisible(true);
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+
 	}
 
 	/**
@@ -58,6 +69,7 @@ public class Application
 		frame.setLocation(50, 50);
 		frame.setTitle("Load Balancer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		SpringLayout springLayout = new SpringLayout();
+		frame.getContentPane().setLayout(springLayout);
 	}
-
 }
