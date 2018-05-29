@@ -16,6 +16,7 @@ public class LoadBalancerRandom extends LoadBalancer
 	public LoadBalancerRandom(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.Random;
 		random = new Random();
 	}
 

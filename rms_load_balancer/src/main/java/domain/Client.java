@@ -20,19 +20,6 @@ public class Client
 	private final int maximumNumberOfRequestsInOneQueue = 10000;
 	private Random randomGenerator;
 
-	public Client(int _minimumWorkToDo, int _maximumWorkToDo, int _initialRequestsNumber, int _requestsInOneQueue,
-			double _percentageRandomizeOfRequests, boolean _randomizeNumberOfRequests)
-	{
-		setMaximumWorkToDo(_maximumWorkToDo);
-		setMinimumWorkToDo(_minimumWorkToDo);
-		setInitialRequestsNumber(_initialRequestsNumber);
-		setRequestsInOneQueue(_requestsInOneQueue);
-		setPercentageRandomizeOfRequests(_percentageRandomizeOfRequests);
-		setRandomizeNumberOfRequests(_randomizeNumberOfRequests);
-
-		CreateRandomizer();
-	}
-	
 	private Client(Builder builder)
 	{
 		setMaximumWorkToDo(builder.maximumWorkToDo);
