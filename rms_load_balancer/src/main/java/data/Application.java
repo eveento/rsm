@@ -155,5 +155,11 @@ public class Application
 		springLayout.putConstraint(SpringLayout.WEST, RadioRR, 0, SpringLayout.WEST, lblClientParameters);
 		springLayout.putConstraint(SpringLayout.SOUTH, RadioRR, -6, SpringLayout.NORTH, RadioWRR);
 		frame.getContentPane().add(RadioRR);
+		
+		JButton btnReset = new JButton("RESET");
+		springLayout.putConstraint(SpringLayout.NORTH, btnReset, -58, SpringLayout.SOUTH, btnX);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnReset, 0, SpringLayout.SOUTH, btnX);
+		springLayout.putConstraint(SpringLayout.EAST, btnReset, -6, SpringLayout.WEST, btnRunOnceOne);
+		frame.getContentPane().add(btnReset);
 	}
 }
