@@ -16,12 +16,16 @@ public class LoadBalancerWRR extends LoadBalancer
 	//private List<Integer> tableOfWeight=new ArrayList<Integer>();
 	//private List<Integer> checkIfServerWas = new ArrayList<Integer>();
 
+
 	public LoadBalancerWRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.WeightedRoundRobin;
 		initChosenServerIndex();
+
 	/*	initTableOfServer();
 		initTempTableOfServer();*/
+
 	}
 
 	@Override
@@ -51,6 +55,7 @@ public class LoadBalancerWRR extends LoadBalancer
 		}
 	}
 /*	private void addServerToUseList(int index)
+
 	{
 		checkIfServerWas.add(index); // dodaje do listy uzytych
 	}

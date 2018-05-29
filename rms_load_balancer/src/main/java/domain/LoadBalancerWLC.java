@@ -20,7 +20,6 @@ public class LoadBalancerWLC extends LoadBalancer
 	public LoadBalancerWLC(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
-
 	}
 
 	@Override
@@ -61,6 +60,4 @@ public class LoadBalancerWLC extends LoadBalancer
 
 		return index;
 	}
-
-	
 }

@@ -13,6 +13,7 @@ public class LoadBalancerLC extends LoadBalancer
 	public LoadBalancerLC(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.LeastConnections;
 	}
 
 	@Override

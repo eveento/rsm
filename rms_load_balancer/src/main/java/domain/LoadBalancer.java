@@ -9,6 +9,7 @@ public class LoadBalancer
 	protected List<ServerUnit> ListOfServers;
 	protected Queue<Request> QueueOfRequests;
 	protected int numberOfServers;
+	protected TypeOfLoadBalancer typeOfLoadBalancer;
 
 	public LoadBalancer(List<ServerUnit> _ListOfServers)
 	{
@@ -124,8 +125,10 @@ public class LoadBalancer
 	@Override
 	public String toString()
 	{
-		return "LoadBalancer [numberOfServers=" + numberOfServers + ", GetNumberOfRequestsWaitingToBeAssigned()="
+		return "LoadBalancer [typeOfLoadBalancer=" + typeOfLoadBalancer + ", GetNumberOfRequestsWaitingToBeAssigned()="
 				+ GetNumberOfRequestsWaitingToBeAssigned() + "]";
 	}
+
+	
 
 }
