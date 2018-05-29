@@ -20,8 +20,11 @@ public class test
 		System.out.println("Konstruktor testu");
 		listOfServers = new ArrayList<ServerUnit>();
 
-		for (int i = 0; i < 4; i++)
-			listOfServers.add(new ServerUnit(100, 1, 1));
+		//for (int i = 0; i < 4; i++)
+			listOfServers.add(new ServerUnit(100, 15, 1));
+			listOfServers.add(new ServerUnit(10, 1, 1));
+			listOfServers.add(new ServerUnit(50, 5, 1));
+			listOfServers.add(new ServerUnit(70, 6, 1));
 
 		System.out.println("Stworzylem serwery");
 
@@ -29,7 +32,7 @@ public class test
 
 		System.out.println("Stworzylem klientow");
 
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.Random, listOfServers);
+		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.WeightedRoundRobin, listOfServers);
 
 		System.out.println("Stworzylem load balancer");
 
