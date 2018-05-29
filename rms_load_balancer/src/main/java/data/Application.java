@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JRadioButton;
 
 public class Application
 {
@@ -116,5 +117,43 @@ public class Application
 		springLayout.putConstraint(SpringLayout.SOUTH, btnRunOnceOne, 0, SpringLayout.SOUTH, btnX);
 		springLayout.putConstraint(SpringLayout.EAST, btnRunOnceOne, -6, SpringLayout.WEST, btnX);
 		frame.getContentPane().add(btnRunOnceOne);
+		
+		JLabel lblClientParameters = new JLabel("Client parameters:");
+		springLayout.putConstraint(SpringLayout.NORTH, lblClientParameters, 10, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblClientParameters, 10, SpringLayout.WEST, frame.getContentPane());
+		lblClientParameters.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		frame.getContentPane().add(lblClientParameters);
+		
+		JLabel lblLoadBalancer = new JLabel("Load Balancer:");
+		springLayout.putConstraint(SpringLayout.WEST, lblLoadBalancer, 10, SpringLayout.WEST, frame.getContentPane());
+		lblLoadBalancer.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		frame.getContentPane().add(lblLoadBalancer);
+		
+		JRadioButton RadioRandom = new JRadioButton("Random");
+		springLayout.putConstraint(SpringLayout.NORTH, RadioRandom, 18, SpringLayout.NORTH, btnX);
+		springLayout.putConstraint(SpringLayout.WEST, RadioRandom, 0, SpringLayout.WEST, lblClientParameters);
+		frame.getContentPane().add(RadioRandom);
+		
+		JRadioButton RadioWLC = new JRadioButton("WeightedLeastConnections");
+		springLayout.putConstraint(SpringLayout.NORTH, RadioWLC, 15, SpringLayout.NORTH, lblRun);
+		springLayout.putConstraint(SpringLayout.WEST, RadioWLC, 0, SpringLayout.WEST, lblClientParameters);
+		springLayout.putConstraint(SpringLayout.SOUTH, RadioWLC, -6, SpringLayout.NORTH, RadioRandom);
+		frame.getContentPane().add(RadioWLC);
+		
+		JRadioButton RadioLC = new JRadioButton("Least Connections");
+		springLayout.putConstraint(SpringLayout.WEST, RadioLC, 0, SpringLayout.WEST, lblClientParameters);
+		springLayout.putConstraint(SpringLayout.SOUTH, RadioLC, -6, SpringLayout.NORTH, RadioWLC);
+		frame.getContentPane().add(RadioLC);
+		
+		JRadioButton RadioWRR = new JRadioButton("Weighted Round Robin");
+		springLayout.putConstraint(SpringLayout.WEST, RadioWRR, 0, SpringLayout.WEST, lblClientParameters);
+		springLayout.putConstraint(SpringLayout.SOUTH, RadioWRR, -6, SpringLayout.NORTH, RadioLC);
+		frame.getContentPane().add(RadioWRR);
+		
+		JRadioButton RadioRR = new JRadioButton("Round Robin");
+		springLayout.putConstraint(SpringLayout.SOUTH, lblLoadBalancer, -6, SpringLayout.NORTH, RadioRR);
+		springLayout.putConstraint(SpringLayout.WEST, RadioRR, 0, SpringLayout.WEST, lblClientParameters);
+		springLayout.putConstraint(SpringLayout.SOUTH, RadioRR, -6, SpringLayout.NORTH, RadioWRR);
+		frame.getContentPane().add(RadioRR);
 	}
 }
