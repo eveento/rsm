@@ -24,16 +24,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Application
 {
 
 	private JFrame frame;
-	private JTextField MinWorkField;
-	private JTextField MaxWorkField;
-	private JTextField RequestsInOneQueueField;
-	private JTextField TotalRequestsField;
-	private JTextField RandomizePercentageField;
 	private List<JRadioButton> listOfLoadBalancerButtons;
 	private TypeOfLoadBalancer chosenTypeOfLoadBalancer;
 
@@ -88,162 +88,62 @@ public class Application
 		listOfLoadBalancerButtons = new ArrayList<JRadioButton>();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 855, 544);
+		frame.setBounds(100, 100, 1280, 720);
 		frame.setLocation(50, 50);
 		frame.setTitle("Load Balancer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		SpringLayout springLayout = new SpringLayout();
-		frame.getContentPane().setLayout(springLayout);
+		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
-		JButton btnX = new JButton("x1");
-		springLayout.putConstraint(SpringLayout.WEST, btnX, 457, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnX, -10, SpringLayout.SOUTH, frame.getContentPane());
-		frame.getContentPane().add(btnX);
+		JLabel lblGenerateOnlyOneRequestPerIteration = new JLabel("Generate only one request per iteration");
+		lblGenerateOnlyOneRequestPerIteration.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGenerateOnlyOneRequestPerIteration.setBounds(960, 490, 300, 50);
+		frame.getContentPane().add(lblGenerateOnlyOneRequestPerIteration);
 		
-		JButton btnX_1 = new JButton("x10");
-		springLayout.putConstraint(SpringLayout.NORTH, btnX, 0, SpringLayout.NORTH, btnX_1);
-		springLayout.putConstraint(SpringLayout.EAST, btnX, -6, SpringLayout.WEST, btnX_1);
-		springLayout.putConstraint(SpringLayout.WEST, btnX_1, 550, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnX_1, -10, SpringLayout.SOUTH, frame.getContentPane());
-		frame.getContentPane().add(btnX_1);
+		JButton btnRunAllOnePerIteration = new JButton("Run all");
+		btnRunAllOnePerIteration.setBounds(960, 620, 300, 50);
+		frame.getContentPane().add(btnRunAllOnePerIteration);
 		
-		JButton btnX_2 = new JButton("x100");
-		springLayout.putConstraint(SpringLayout.NORTH, btnX_1, 0, SpringLayout.NORTH, btnX_2);
-		springLayout.putConstraint(SpringLayout.EAST, btnX_1, -6, SpringLayout.WEST, btnX_2);
-		springLayout.putConstraint(SpringLayout.WEST, btnX_2, 643, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(btnX_2);
+		JButton btnX10OnePerIteration = new JButton("x 10");
+		btnX10OnePerIteration.setBounds(1035, 550, 65, 50);
+		frame.getContentPane().add(btnX10OnePerIteration);
 		
-		JButton btnAll = new JButton("All");
-		springLayout.putConstraint(SpringLayout.NORTH, btnAll, 427, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btnAll, 740, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnAll, -10, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnAll, -10, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, btnX_2, 0, SpringLayout.NORTH, btnAll);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnX_2, 0, SpringLayout.SOUTH, btnAll);
-		springLayout.putConstraint(SpringLayout.EAST, btnX_2, -10, SpringLayout.WEST, btnAll);
-		frame.getContentPane().add(btnAll);
+		JButton btnX1OnePerIteration = new JButton("x 1");
+		btnX1OnePerIteration.setBounds(960, 550, 65, 50);
+		frame.getContentPane().add(btnX1OnePerIteration);
 		
-		JLabel lblRun = new JLabel("Run simulation steps");
-		springLayout.putConstraint(SpringLayout.WEST, lblRun, 0, SpringLayout.WEST, btnX);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblRun, -6, SpringLayout.NORTH, btnX);
-		lblRun.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.getContentPane().add(lblRun);
+		JButton btnX1000OnePerIteration = new JButton("x 1000");
+		btnX1000OnePerIteration.setBounds(1185, 550, 75, 50);
+		frame.getContentPane().add(btnX1000OnePerIteration);
 		
-		JButton btnRunOnceOne = new JButton("Run once one request");
-		springLayout.putConstraint(SpringLayout.NORTH, btnRunOnceOne, 0, SpringLayout.NORTH, btnX);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnRunOnceOne, 0, SpringLayout.SOUTH, btnX);
-		springLayout.putConstraint(SpringLayout.EAST, btnRunOnceOne, -6, SpringLayout.WEST, btnX);
-		frame.getContentPane().add(btnRunOnceOne);
+		JButton btnX100OnePerIteration = new JButton("x 100");
+		btnX100OnePerIteration.setBounds(1110, 550, 65, 50);
+		frame.getContentPane().add(btnX100OnePerIteration);
 		
-		JLabel lblClientParameters = new JLabel("Clients parameters:");
-		lblClientParameters.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.getContentPane().add(lblClientParameters);
+		JButton btRunAllSet = new JButton("Run all");
+		btRunAllSet.setBounds(960, 402, 300, 50);
+		frame.getContentPane().add(btRunAllSet);
 		
-		JLabel lblLoadBalancer = new JLabel("Load Balancer:");
-		springLayout.putConstraint(SpringLayout.WEST, lblClientParameters, 0, SpringLayout.WEST, lblLoadBalancer);
-		springLayout.putConstraint(SpringLayout.WEST, lblLoadBalancer, 10, SpringLayout.WEST, frame.getContentPane());
-		lblLoadBalancer.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.getContentPane().add(lblLoadBalancer);
+		JButton btnX1SetPerIteration = new JButton("x 1");
+		btnX1SetPerIteration.setBounds(960, 332, 65, 50);
+		frame.getContentPane().add(btnX1SetPerIteration);
 		
-		JRadioButton RadioRandom = new JRadioButton("Random");
-		springLayout.putConstraint(SpringLayout.NORTH, RadioRandom, 18, SpringLayout.NORTH, btnX);
-		springLayout.putConstraint(SpringLayout.WEST, RadioRandom, 10, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(RadioRandom);
-		listOfLoadBalancerButtons.add(RadioRandom);
+		JButton btnX10SetSetPerIteration = new JButton("x 10");
+		btnX10SetSetPerIteration.setBounds(1035, 332, 65, 50);
+		frame.getContentPane().add(btnX10SetSetPerIteration);
 		
-		JRadioButton RadioWLC = new JRadioButton("WeightedLeastConnections");
-		springLayout.putConstraint(SpringLayout.NORTH, RadioWLC, 15, SpringLayout.NORTH, lblRun);
-		springLayout.putConstraint(SpringLayout.WEST, RadioWLC, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, RadioWLC, -6, SpringLayout.NORTH, RadioRandom);
-		frame.getContentPane().add(RadioWLC);
-		listOfLoadBalancerButtons.add(RadioWLC);
+		JButton btnX100SetSetPerIteration = new JButton("x 100");
+		btnX100SetSetPerIteration.setBounds(1110, 332, 65, 50);
+		frame.getContentPane().add(btnX100SetSetPerIteration);
 		
-		JRadioButton RadioLC = new JRadioButton("Least Connections");
-		springLayout.putConstraint(SpringLayout.WEST, RadioLC, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, RadioLC, -6, SpringLayout.NORTH, RadioWLC);
-		frame.getContentPane().add(RadioLC);
-		listOfLoadBalancerButtons.add(RadioLC);
+		JButton btnX1000SetSetPerIteration = new JButton("x 1000");
+		btnX1000SetSetPerIteration.setBounds(1185, 332, 75, 50);
+		frame.getContentPane().add(btnX1000SetSetPerIteration);
 		
-		JRadioButton RadioWRR = new JRadioButton("Weighted Round Robin");
-		springLayout.putConstraint(SpringLayout.WEST, RadioWRR, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, RadioWRR, -6, SpringLayout.NORTH, RadioLC);
-		frame.getContentPane().add(RadioWRR);
-		listOfLoadBalancerButtons.add(RadioWRR);
-		
-		JRadioButton RadioRR = new JRadioButton("Round Robin");
-		springLayout.putConstraint(SpringLayout.WEST, RadioRR, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblLoadBalancer, -6, SpringLayout.NORTH, RadioRR);
-		springLayout.putConstraint(SpringLayout.SOUTH, RadioRR, -6, SpringLayout.NORTH, RadioWRR);
-		frame.getContentPane().add(RadioRR);
-		RadioRR.setSelected(true);
+		JLabel lblGenerateSetOfRequestsPerIteration = new JLabel("Generate set of requests per iteration");
+		lblGenerateSetOfRequestsPerIteration.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGenerateSetOfRequestsPerIteration.setBounds(960, 272, 300, 50);
+		frame.getContentPane().add(lblGenerateSetOfRequestsPerIteration);
 		chosenTypeOfLoadBalancer = TypeOfLoadBalancer.RoundRobin;
-		listOfLoadBalancerButtons.add(RadioRR);
-		
-		JButton btnReset = new JButton("RESET");
-		springLayout.putConstraint(SpringLayout.NORTH, btnReset, -58, SpringLayout.SOUTH, btnX);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnReset, 0, SpringLayout.SOUTH, btnX);
-		springLayout.putConstraint(SpringLayout.EAST, btnReset, -6, SpringLayout.WEST, btnRunOnceOne);
-		frame.getContentPane().add(btnReset);
-		
-		JLabel lblMinWork = new JLabel("Min. work for request");
-		springLayout.putConstraint(SpringLayout.SOUTH, lblClientParameters, -6, SpringLayout.NORTH, lblMinWork);
-		springLayout.putConstraint(SpringLayout.WEST, lblMinWork, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblMinWork, -426, SpringLayout.SOUTH, frame.getContentPane());
-		frame.getContentPane().add(lblMinWork);
-		
-		JLabel lblMaxWork = new JLabel("Max. work for request");
-		springLayout.putConstraint(SpringLayout.NORTH, lblMaxWork, 14, SpringLayout.SOUTH, lblMinWork);
-		springLayout.putConstraint(SpringLayout.WEST, lblMaxWork, 0, SpringLayout.WEST, lblClientParameters);
-		frame.getContentPane().add(lblMaxWork);
-		
-		JLabel lblNumberOfRequests = new JLabel("Number of requests in one queue");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNumberOfRequests, 17, SpringLayout.SOUTH, lblMaxWork);
-		springLayout.putConstraint(SpringLayout.WEST, lblNumberOfRequests, 10, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(lblNumberOfRequests);
-		
-		JLabel lblTotalNumberOf = new JLabel("Total number of requests");
-		springLayout.putConstraint(SpringLayout.NORTH, lblTotalNumberOf, 16, SpringLayout.SOUTH, lblNumberOfRequests);
-		springLayout.putConstraint(SpringLayout.WEST, lblTotalNumberOf, 0, SpringLayout.WEST, lblClientParameters);
-		frame.getContentPane().add(lblTotalNumberOf);
-		
-		JCheckBox RandomizeCheckBox = new JCheckBox("Randomize number of requests in one queue");
-		springLayout.putConstraint(SpringLayout.NORTH, RandomizeCheckBox, 16, SpringLayout.SOUTH, lblTotalNumberOf);
-		springLayout.putConstraint(SpringLayout.WEST, RandomizeCheckBox, 0, SpringLayout.WEST, lblClientParameters);
-		frame.getContentPane().add(RandomizeCheckBox);
-		
-		JLabel lblOfRandomize = new JLabel("% of randomize");
-		springLayout.putConstraint(SpringLayout.NORTH, lblOfRandomize, 12, SpringLayout.SOUTH, RandomizeCheckBox);
-		springLayout.putConstraint(SpringLayout.WEST, lblOfRandomize, 0, SpringLayout.WEST, lblClientParameters);
-		frame.getContentPane().add(lblOfRandomize);
-		
-		MinWorkField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, MinWorkField, -3, SpringLayout.NORTH, lblMinWork);
-		springLayout.putConstraint(SpringLayout.WEST, MinWorkField, 74, SpringLayout.EAST, lblMinWork);
-		frame.getContentPane().add(MinWorkField);
-		MinWorkField.setColumns(10);
-		
-		MaxWorkField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, MaxWorkField, -3, SpringLayout.NORTH, lblMaxWork);
-		springLayout.putConstraint(SpringLayout.EAST, MaxWorkField, 0, SpringLayout.EAST, MinWorkField);
-		frame.getContentPane().add(MaxWorkField);
-		MaxWorkField.setColumns(10);
-		
-		RequestsInOneQueueField = new JTextField();
-		springLayout.putConstraint(SpringLayout.WEST, RequestsInOneQueueField, 6, SpringLayout.EAST, lblNumberOfRequests);
-		springLayout.putConstraint(SpringLayout.SOUTH, RequestsInOneQueueField, 0, SpringLayout.SOUTH, lblNumberOfRequests);
-		frame.getContentPane().add(RequestsInOneQueueField);
-		RequestsInOneQueueField.setColumns(10);
-		
-		TotalRequestsField = new JTextField();
-		springLayout.putConstraint(SpringLayout.SOUTH, TotalRequestsField, 0, SpringLayout.SOUTH, lblTotalNumberOf);
-		springLayout.putConstraint(SpringLayout.EAST, TotalRequestsField, 0, SpringLayout.EAST, MinWorkField);
-		frame.getContentPane().add(TotalRequestsField);
-		TotalRequestsField.setColumns(10);
-		
-		RandomizePercentageField = new JTextField();
-		springLayout.putConstraint(SpringLayout.WEST, RandomizePercentageField, 6, SpringLayout.EAST, lblOfRandomize);
-		springLayout.putConstraint(SpringLayout.SOUTH, RandomizePercentageField, 0, SpringLayout.SOUTH, lblOfRandomize);
-		frame.getContentPane().add(RandomizePercentageField);
-		RandomizePercentageField.setColumns(10);
 	}
 }
