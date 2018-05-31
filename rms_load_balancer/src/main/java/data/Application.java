@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.SpringLayout;
 
-import domain.TypeOfLoadBalancer;
+import domain.*;
 
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
@@ -26,6 +26,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -48,7 +50,10 @@ public class Application
 	private JTextField tfRandomizePercentage;
 	private final ButtonGroup ChosenLoadBalancer = new ButtonGroup();
 	
-	private TypeOfLoadBalancer chosenLoadBalancer;
+	private List<ServerUnit> listOfServers;
+	private Client client;
+	private LoadBalancer loadBalancer;
+	private Simulation simulation;
 
 	/**
 	 * Launch the application.
@@ -92,6 +97,47 @@ public class Application
 	{
 		initialize();
 	}
+	
+	private void CreateClients()
+	{
+		client = new Client
+				.Builder()
+				.MinimumWorkToDo(5)
+				.MaximumWorkToDo(5)
+				.InitialRequestsNumber(1000)
+				.RequestsInOneQueue(35)
+				.PercentageRandomizeOfRequests(0.0)
+				.RandomizeNumberOfRequests(false)
+				.Build();
+	}
+	
+	private void CreateLoadBalancer()
+	{
+		try 
+		{
+			loadBalancer = LoadBalancer.Build(GetTypeOfLoadBalancer(), listOfServers);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private void CreateSimulation()
+	{
+		simulation = new Simulation(client, loadBalancer, listOfServers);
+	}
+	
+	private TypeOfLoadBalancer GetTypeOfLoadBalancer()
+	{
+		TypeOfLoadBalancer chosenTypeOfLoadBalancer = TypeOfLoadBalancer.RoundRobin;
+		
+		// TODO:
+		// implement choosing the load balancer type
+		
+		return chosenTypeOfLoadBalancer;
+	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -252,11 +298,6 @@ public class Application
 		JLabel lblOfRandomization = new JLabel("% of randomization");
 		lblOfRandomization.setBounds(140, 290, 200, 25);
 		frame.getContentPane().add(lblOfRandomization);
-		
-		JLabel lblSimulationInfo = new JLabel("Simulation status:");
-		lblSimulationInfo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSimulationInfo.setBounds(960, 30, 200, 50);
-		frame.getContentPane().add(lblSimulationInfo);
 		
 		JLabel lblRemainingRequests = new JLabel("Remaining requests:");
 		lblRemainingRequests.setFont(new Font("Tahoma", Font.BOLD, 15));
