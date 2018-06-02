@@ -15,6 +15,14 @@ public class Simulation
 		listOfServers = _listOfServers;
 	}
 
+	public void RunAllOneRequestPerIteration()
+	{
+		do
+		{
+			RunOnceOneRequest();
+		} while (!client.CheckIfAllRequestsSent());
+	}
+	
 	public void RunOnce()
 	{
 		if (!client.CheckIfAllRequestsSent())

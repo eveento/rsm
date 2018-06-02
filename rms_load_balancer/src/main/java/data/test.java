@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JTextField;
+
 import domain.*;
 import domain.ServerUnit.Builder;
 
@@ -16,44 +18,58 @@ public class test
 	private Simulation simulation;
 	private LoadBalancer loadBalancer;
 
-	public test() throws Exception
+	public test(TypeOfLoadBalancer tlb,int tfMinWork, int tfMaxWork,int initRequestNumber, int requestsInOneQueue,double percentageRandomizeOfRequests,boolean randomizeNumberOfRequests) throws Exception
 	{
-		System.out.println("Konstruktor testu");
+			
+		//System.out.println("Konstruktor testu");
 		listOfServers = new ArrayList<ServerUnit>();
 
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(100)
+				.Weight(1)
 				.Build());
-
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(100)
+				.Weight(5)
+				.Build());
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(7)
+				.Build());
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(9)
 				.Build()); 
 		
-		System.out.println("Stworzylem serwer(y)");
+	//	System.out.println("Stworzylem serwer(y)");
 		
 		client = new Client
 				.Builder()
-				.MinimumWorkToDo(5)
-				.MaximumWorkToDo(5)
-				.InitialRequestsNumber(1000)
-				.RequestsInOneQueue(35)
-				.PercentageRandomizeOfRequests(0.0)
-				.RandomizeNumberOfRequests(false)
+				.MinimumWorkToDo(tfMinWork)//5
+				.MaximumWorkToDo(tfMaxWork)//5
+				.InitialRequestsNumber(initRequestNumber)//1000
+				.RequestsInOneQueue(requestsInOneQueue)//35
+				.PercentageRandomizeOfRequests(percentageRandomizeOfRequests)//0.0
+				.RandomizeNumberOfRequests(randomizeNumberOfRequests)//false
 				.Build();
 
-		System.out.println("Stworzylem klientow");
+		//System.out.println("Stworzylem klientow");
 
-		loadBalancer = LoadBalancer.Build(TypeOfLoadBalancer.WeightedRoundRobin, listOfServers);
+		loadBalancer = LoadBalancer.Build(tlb, listOfServers);
 
-		System.out.println("Stworzylem load balancer");
+	//	System.out.println("Stworzylem load balancer");
 
 		simulation = new Simulation(client, loadBalancer, listOfServers);
 
-		System.out.println("Stworzylem symulacje");
+	//	System.out.println("Stworzylem symulacje");
 	}
 
 	public void run() throws IOException, InterruptedException
@@ -83,7 +99,7 @@ public class test
 
 	private void DuzoEnterow()
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			System.out.println();
 		}

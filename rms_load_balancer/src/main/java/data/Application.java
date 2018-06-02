@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +18,7 @@ import domain.*;
 
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -33,46 +35,56 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JSlider;
 import java.awt.Component;
+
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class Application
 {
 
-	private JFrame frame;
-	private List<JRadioButton> listOfLoadBalancerButtons;
-	private TypeOfLoadBalancer chosenTypeOfLoadBalancer;
-	private JTextField tfMinWork;
-	private JTextField tfMaxWork;
-	private JTextField tfTotalRequests;
-	private JTextField tfRequestsInOneSet;
-	private JTextField tfRandomizePercentage;
-	private final ButtonGroup ChosenLoadBalancer = new ButtonGroup();
+	private  JFrame frame;
+	private  List<JRadioButton> listOfLoadBalancerButtons;
+	private  TypeOfLoadBalancer chosenTypeOfLoadBalancer;
+	private static  JTextField tfMinWork;
+	private static JTextField tfMaxWork;
+	private static JTextField tfTotalRequests;
+	private static JTextField tfRequestsInOneSet;
+	private static  JTextField tfRandomizePercentage;
+	private final static ButtonGroup ChosenLoadBalancer = new ButtonGroup();
 	
-	private List<ServerUnit> listOfServers;
-	private Client client;
-	private LoadBalancer loadBalancer;
-	private Simulation simulation;
+	private static  List<ServerUnit> listOfServers;
+	private static  Client client;
+	private  LoadBalancer loadBalancer;
+	private  Simulation simulation;
+	private final Action action = new SwingAction();
+	
+	JLabel lblx = new JLabel("0x00");
+	JLabel lblIterationNumberNumber = new JLabel("0x00");
+	JLabel lblRemainingRequestsNumber = new JLabel("0x00");
+	static JCheckBox checkRandomizeNumberOfRequestsInSet = new JCheckBox("Randomize number of requests in one set");
+	private static int numberOfIteration=0;
+	
+	public static int getNumberOfIteration() {
+		return numberOfIteration;
+	}
+
+
+	public static void setNumberOfIteration(int numberOfIteration) {
+		Application.numberOfIteration = numberOfIteration;
+		
+	}
+
 
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args)
-	{
-		System.out.println("Aplikacja rozpoczyna testowanie");
-		try
-		{
-			test _test = new test();
-			_test.run();
-		} catch (Exception e)
-		{
-			System.out.println(e.toString());
-		} finally
-		{
-			System.out.println("Aplikacja zakonczyla testowanie");
-		}
-
+	{		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -81,14 +93,16 @@ public class Application
 				{
 					Application window = new Application();
 					window.frame.setVisible(true);
+					CreateServers();
+					CreateClients(); 					
 				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
 			}
 		});
-
 	}
+	
 
 	/**
 	 * Create the application.
@@ -98,24 +112,62 @@ public class Application
 		initialize();
 	}
 	
-	private void CreateClients()
+	private static void CreateServers() {
+		listOfServers = new ArrayList<ServerUnit>();
+
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(1)
+				.Build());
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(5)
+				.Build());
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(7)
+				.Build());
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(100)
+				.Weight(9)
+				.Build()); 
+	}
+	
+	private static void CreateClients()
 	{
+		int minWork = Integer.parseInt(tfMinWork.getText()); 
+		int maxWork=Integer.parseInt(tfMaxWork.getText());
+		int initRequestNumb=Integer.parseInt(tfTotalRequests.getText());
+		int requestsInOneQueue=Integer.parseInt(tfRequestsInOneSet.getText());
+		double percentageRandomizeOfRequests=Integer.parseInt(tfRandomizePercentage.getText());
+		
+		 boolean randomizeNumberOfRequests=(checkRandomizeNumberOfRequestsInSet.isSelected()?true:false);
+		
 		client = new Client
 				.Builder()
-				.MinimumWorkToDo(5)
-				.MaximumWorkToDo(5)
-				.InitialRequestsNumber(1000)
-				.RequestsInOneQueue(35)
-				.PercentageRandomizeOfRequests(0.0)
-				.RandomizeNumberOfRequests(false)
+				.MinimumWorkToDo(minWork)//5
+				.MaximumWorkToDo(maxWork)//5
+				.InitialRequestsNumber(initRequestNumb)//1000
+				.RequestsInOneQueue(requestsInOneQueue)//35
+				.PercentageRandomizeOfRequests(percentageRandomizeOfRequests)//0.0
+				.RandomizeNumberOfRequests(randomizeNumberOfRequests)//false
 				.Build();
 	}
 	
-	private void CreateLoadBalancer()
+	private  void CreateLoadBalancer(TypeOfLoadBalancer tlb)
 	{
 		try 
 		{
-			loadBalancer = LoadBalancer.Build(GetTypeOfLoadBalancer(), listOfServers);
+			//loadBalancer = LoadBalancer.Build(GetTypeOfLoadBalancer(), listOfServers);
+			loadBalancer = LoadBalancer.Build(tlb, listOfServers);
 		}
 		catch(Exception e)
 		{
@@ -123,29 +175,17 @@ public class Application
 		}
 	}
 	
-	private void CreateSimulation()
+	private  void CreateSimulation(Client client,LoadBalancer loadBalancer,List<ServerUnit> listOfServers)
 	{
 		simulation = new Simulation(client, loadBalancer, listOfServers);
 	}
 	
-	private TypeOfLoadBalancer GetTypeOfLoadBalancer()
-	{
-		TypeOfLoadBalancer chosenTypeOfLoadBalancer = TypeOfLoadBalancer.RoundRobin;
-		
-		// TODO:
-		// implement choosing the load balancer type
-		
-		return chosenTypeOfLoadBalancer;
-	}
-
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize()
 	{
-		listOfLoadBalancerButtons = new ArrayList<JRadioButton>();
-		
+		listOfLoadBalancerButtons = new ArrayList<JRadioButton>();		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 720);
 		frame.setLocation(50, 50);
@@ -160,42 +200,160 @@ public class Application
 		frame.getContentPane().add(lblGenerateOnlyOneRequestPerIteration);
 		
 		JButton btnRunAllOnePerIteration = new JButton("Run all");
+		btnRunAllOnePerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunAllOneRequestPerIteration();
+				}
+				System.out.println(numberOfIteration);
+				print();
+				UpdateUI();
+			}
+		});
 		btnRunAllOnePerIteration.setBounds(960, 620, 300, 50);
 		frame.getContentPane().add(btnRunAllOnePerIteration);
 		
 		JButton btnX10OnePerIteration = new JButton("x 10");
+		btnX10OnePerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(10);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnceOneRequest();
+				}
+				System.out.println(numberOfIteration);
+				print();
+				UpdateUI();
+			}
+		});
 		btnX10OnePerIteration.setBounds(1035, 550, 65, 50);
 		frame.getContentPane().add(btnX10OnePerIteration);
 		
 		JButton btnX1OnePerIteration = new JButton("x 1");
+		btnX1OnePerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(1);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnceOneRequest();
+				}
+				System.out.println(numberOfIteration);				
+				print();
+				UpdateUI();
+			}
+		});
 		btnX1OnePerIteration.setBounds(960, 550, 65, 50);
 		frame.getContentPane().add(btnX1OnePerIteration);
 		
 		JButton btnX1000OnePerIteration = new JButton("x 1000");
+		btnX1000OnePerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(1000);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnceOneRequest();
+				}
+				System.out.println(numberOfIteration);				
+				print();
+				UpdateUI();
+			}
+		});
 		btnX1000OnePerIteration.setBounds(1185, 550, 75, 50);
 		frame.getContentPane().add(btnX1000OnePerIteration);
 		
 		JButton btnX100OnePerIteration = new JButton("x 100");
+		btnX100OnePerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(100);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnceOneRequest();
+				}
+				System.out.println(numberOfIteration);
+				print();
+				UpdateUI();
+			}
+		});
 		btnX100OnePerIteration.setBounds(1110, 550, 65, 50);
 		frame.getContentPane().add(btnX100OnePerIteration);
 		
 		JButton btRunAllSet = new JButton("Run all");
+		btRunAllSet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunAll();
+				}
+				System.out.println(numberOfIteration);				
+				print();
+				UpdateUI();
+			}
+		});
 		btRunAllSet.setBounds(960, 400, 300, 50);
 		frame.getContentPane().add(btRunAllSet);
 		
 		JButton btnX1SetPerIteration = new JButton("x 1");
+		btnX1SetPerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(1);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnce();
+				}
+				System.out.println(numberOfIteration);	
+				print();
+				UpdateUI();
+			}
+		});
 		btnX1SetPerIteration.setBounds(960, 330, 65, 50);
 		frame.getContentPane().add(btnX1SetPerIteration);
 		
 		JButton btnX10SetSetPerIteration = new JButton("x 10");
+		btnX10SetSetPerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(10);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnce();
+				}
+				System.out.println(numberOfIteration);				
+				print();
+				UpdateUI();
+			}
+		});
 		btnX10SetSetPerIteration.setBounds(1035, 330, 65, 50);
 		frame.getContentPane().add(btnX10SetSetPerIteration);
 		
 		JButton btnX100SetSetPerIteration = new JButton("x 100");
+		btnX100SetSetPerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(100);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnce();
+				}
+				System.out.println(numberOfIteration);		
+				print();
+				UpdateUI();
+			}
+		});
 		btnX100SetSetPerIteration.setBounds(1110, 330, 65, 50);
 		frame.getContentPane().add(btnX100SetSetPerIteration);
 		
 		JButton btnX1000SetSetPerIteration = new JButton("x 1000");
+		btnX1000SetSetPerIteration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNumberOfIteration(1000);
+				for (int i = 0; i < numberOfIteration; i++)
+				{
+					simulation.RunOnce();
+				}
+				System.out.println(numberOfIteration);				
+				print();
+				UpdateUI();
+			}
+		});
 		btnX1000SetSetPerIteration.setBounds(1185, 330, 75, 50);
 		frame.getContentPane().add(btnX1000SetSetPerIteration);
 		
@@ -223,7 +381,7 @@ public class Application
 		JRadioButton radioWLC = new JRadioButton("Weighted least connections");
 		ChosenLoadBalancer.add(radioWLC);
 		radioWLC.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		radioWLC.setBounds(30, 550, 220, 50);
+		radioWLC.setBounds(30, 548, 220, 50);
 		frame.getContentPane().add(radioWLC);
 		
 		JRadioButton radioLC = new JRadioButton("Least connections");
@@ -282,14 +440,13 @@ public class Application
 		
 		JLabel lblNumberOfRequests = new JLabel("Number of requests in one set");
 		lblNumberOfRequests.setBounds(140, 230, 200, 25);
-		frame.getContentPane().add(lblNumberOfRequests);
+		frame.getContentPane().add(lblNumberOfRequests);		
 		
-		JCheckBox checkRandomizeNumberOfRequestsInSet = new JCheckBox("Randomize number of requests in one set");
 		checkRandomizeNumberOfRequestsInSet.setBounds(30, 260, 300, 25);
 		frame.getContentPane().add(checkRandomizeNumberOfRequestsInSet);
 		
 		tfRandomizePercentage = new JTextField();
-		tfRandomizePercentage.setEnabled(false);
+		tfRandomizePercentage.setEditable(false);
 		tfRandomizePercentage.setText("0");
 		tfRandomizePercentage.setColumns(10);
 		tfRandomizePercentage.setBounds(30, 290, 100, 25);
@@ -307,22 +464,33 @@ public class Application
 		JLabel lblIterationNumber = new JLabel("Iteration number:");
 		lblIterationNumber.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblIterationNumber.setBounds(960, 170, 200, 50);
-		frame.getContentPane().add(lblIterationNumber);
+		frame.getContentPane().add(lblIterationNumber);		
 		
 		JButton btnResetSettings = new JButton("Reset settings");
+		btnResetSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				radioLC.setSelected(false);
+				radioRR.setSelected(false);
+				radioRandom.setSelected(false);
+				radioWLC.setSelected(false);
+				radioWRR.setSelected(false);
+				tfMaxWork.setText("5");
+				tfMinWork.setText("5");
+				tfRandomizePercentage.setText("0");
+				tfRequestsInOneSet.setText("10");
+				tfTotalRequests.setText("1000");
+				lblx.setText("0");
+				lblIterationNumberNumber.setText("0");
+				lblRemainingRequestsNumber.setText("0");			
+			}
+		});
 		btnResetSettings.setBounds(740, 620, 200, 50);
 		frame.getContentPane().add(btnResetSettings);
 		
-		JButton btnCreateSimulation = new JButton("Create simulation");
-		btnCreateSimulation.setBounds(520, 620, 200, 50);
-		frame.getContentPane().add(btnCreateSimulation);
-		
-		JLabel lblRemainingRequestsNumber = new JLabel("0");
 		lblRemainingRequestsNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblRemainingRequestsNumber.setBounds(1160, 100, 80, 50);
-		frame.getContentPane().add(lblRemainingRequestsNumber);
+		frame.getContentPane().add(lblRemainingRequestsNumber);		
 		
-		JLabel lblIterationNumberNumber = new JLabel("0");
 		lblIterationNumberNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblIterationNumberNumber.setBounds(1160, 170, 80, 50);
 		frame.getContentPane().add(lblIterationNumberNumber);
@@ -330,12 +498,100 @@ public class Application
 		JLabel lblRequestsWaitingTo = new JLabel("Requests waiting to be assigned by load balancer:");
 		lblRequestsWaitingTo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblRequestsWaitingTo.setBounds(350, 30, 387, 50);
-		frame.getContentPane().add(lblRequestsWaitingTo);
+		frame.getContentPane().add(lblRequestsWaitingTo);		
 		
-		JLabel label_3 = new JLabel("0");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		label_3.setBounds(740, 30, 80, 50);
-		frame.getContentPane().add(label_3);
-		chosenTypeOfLoadBalancer = TypeOfLoadBalancer.RoundRobin;
+		lblx.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblx.setBounds(740, 30, 80, 50);
+		frame.getContentPane().add(lblx);
+			
+		JButton btnCreateSimulation = new JButton("Create simulation");
+		btnCreateSimulation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			try {
+				
+				if(checkRandomizeNumberOfRequestsInSet.isSelected()) {
+					tfRandomizePercentage.setEditable(true);
+				}else {
+					tfRandomizePercentage.setEditable(false);
+				}			
+				
+				Enumeration<AbstractButton> clb = ChosenLoadBalancer.getElements();
+				while(clb.hasMoreElements()) {
+					JRadioButton jrb = (JRadioButton) clb.nextElement();
+					if(jrb.isSelected()) {
+						if(jrb.getText()=="Random") {
+							chosenTypeOfLoadBalancer = TypeOfLoadBalancer.Random;
+							CreateClients();
+							CreateLoadBalancer(chosenTypeOfLoadBalancer);
+							CreateSimulation(client,loadBalancer,listOfServers);
+							
+						}
+						else if(jrb.getText()=="Weighted least connections") {
+							chosenTypeOfLoadBalancer = TypeOfLoadBalancer.WeightedLeastConnections;
+							CreateClients();
+							CreateLoadBalancer(chosenTypeOfLoadBalancer);
+							CreateSimulation(client,loadBalancer,listOfServers);
+						
+						}
+						else if(jrb.getText()=="Least connections") {
+							chosenTypeOfLoadBalancer = TypeOfLoadBalancer.LeastConnections;
+							CreateClients();
+							CreateLoadBalancer(chosenTypeOfLoadBalancer);
+							CreateSimulation(client,loadBalancer,listOfServers);
+							
+						}else if(jrb.getText()=="Weighted round robin") {
+							chosenTypeOfLoadBalancer = TypeOfLoadBalancer.WeightedRoundRobin;
+							/*test _test = new test(chosenTypeOfLoadBalancer,minWork,maxWork,initRequestNumb,requestsInOneQueue,randomizePercentage,randomIsSet);
+							_test.run();*/
+							CreateClients();
+							CreateLoadBalancer(chosenTypeOfLoadBalancer);
+							CreateSimulation(client,loadBalancer,listOfServers);
+							
+						}else if(jrb.getText()=="Round robin") {
+							chosenTypeOfLoadBalancer = TypeOfLoadBalancer.RoundRobin;
+							CreateClients();
+							CreateLoadBalancer(chosenTypeOfLoadBalancer);
+							CreateSimulation(client,loadBalancer,listOfServers);							
+						}
+					}	
+				}
+				
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			}
+		});
+		btnCreateSimulation.setBounds(520, 620, 200, 50);
+		frame.getContentPane().add(btnCreateSimulation);	
+	}
+	
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
+	}
+	
+	public  void UpdateUI() {			
+		int numberOfRequestWait = loadBalancer.GetNumberOfRequestsWaitingToBeAssigned();
+		int remainingRequest =client.getRemainingRequestsNumber();
+		int iterationNumber =getNumberOfIteration();
+			lblx.setText(""+numberOfRequestWait);
+			lblIterationNumberNumber.setText(""+iterationNumber);
+			lblRemainingRequestsNumber.setText(""+remainingRequest);
+	}
+
+	private void print()
+	{
+		System.out.println(client.toString());
+		System.out.println(loadBalancer.toString());
+		for (ServerUnit item : listOfServers)
+		{
+			System.out.println(item.toString());
+		}
+		System.out.println("\n");
 	}
 }
+

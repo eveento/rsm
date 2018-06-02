@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+import javax.swing.JTextField;
+
 public class Client
 {
 
@@ -270,9 +272,9 @@ public class Client
 		private double percentageRandomizeOfRequests = 0;
 		private boolean randomizeNumberOfRequests = false;
 		
-		public Builder MinimumWorkToDo(int minimumWorkToDo)
+		public Builder MinimumWorkToDo(int tfMinWork)
 		{
-			this.minimumWorkToDo = minimumWorkToDo;
+			this.minimumWorkToDo = tfMinWork;
 			return this;
 		}
 
