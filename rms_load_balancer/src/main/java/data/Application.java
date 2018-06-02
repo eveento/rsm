@@ -49,14 +49,14 @@ public class Application
 	private  JFrame frame;
 	private  List<JRadioButton> listOfLoadBalancerButtons;
 	private  TypeOfLoadBalancer chosenTypeOfLoadBalancer;
-	private static  JTextField tfMinWork;
+	private static JTextField tfMinWork;
 	private static JTextField tfMaxWork;
 	private static JTextField tfTotalRequests;
 	private static JTextField tfRequestsInOneSet;
-	private static  JTextField tfRandomizePercentage;
+	private static JTextField tfRandomizePercentage;
 	private final static ButtonGroup ChosenLoadBalancer = new ButtonGroup();
 	
-	private static  List<ServerUnit> listOfServers;
+	private static  List<ServerUnit> listOfServers= new ArrayList<ServerUnit>();
 	private static  Client client;
 	private  LoadBalancer loadBalancer;
 	private  Simulation simulation;
@@ -67,6 +67,8 @@ public class Application
 	JLabel lblRemainingRequestsNumber = new JLabel("0x00");
 	static JCheckBox checkRandomizeNumberOfRequestsInSet = new JCheckBox("Randomize number of requests in one set");
 	private static int numberOfIteration=0;
+	private static JTextField tfServerCapacity;
+	private static JTextField tfWeightServer;
 	
 	public static int getNumberOfIteration() {
 		return numberOfIteration;
@@ -112,9 +114,20 @@ public class Application
 		initialize();
 	}
 	
+	private static void CreateAddServerByUser() {
+		int serverCapacity = Integer.parseInt(tfServerCapacity.getText()); 
+		int serverWeight=Integer.parseInt(tfWeightServer.getText());
+		
+		listOfServers.add(
+				new ServerUnit
+				.Builder()
+				.ServerCapacity(serverCapacity)
+				.Weight(serverWeight)
+				.Build());
+	}
+	
 	private static void CreateServers() {
-		listOfServers = new ArrayList<ServerUnit>();
-
+		//listOfServers = new ArrayList<ServerUnit>();
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
@@ -409,11 +422,11 @@ public class Application
 		tfMinWork.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Min work per request");
-		lblNewLabel.setBounds(140, 100, 200, 25);
+		lblNewLabel.setBounds(140, 100, 135, 25);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblMaxWorkPer = new JLabel("Max work per request");
-		lblMaxWorkPer.setBounds(140, 130, 200, 25);
+		lblMaxWorkPer.setBounds(140, 130, 135, 25);
 		frame.getContentPane().add(lblMaxWorkPer);
 		
 		tfMaxWork = new JTextField();
@@ -425,45 +438,45 @@ public class Application
 		tfTotalRequests = new JTextField();
 		tfTotalRequests.setText("1000");
 		tfTotalRequests.setColumns(10);
-		tfTotalRequests.setBounds(30, 180, 100, 25);
+		tfTotalRequests.setBounds(30, 167, 100, 25);
 		frame.getContentPane().add(tfTotalRequests);
 		
 		JLabel lblTotalNumberOf = new JLabel("Total number of requests");
-		lblTotalNumberOf.setBounds(140, 180, 200, 25);
+		lblTotalNumberOf.setBounds(140, 167, 150, 25);
 		frame.getContentPane().add(lblTotalNumberOf);
 		
 		tfRequestsInOneSet = new JTextField();
 		tfRequestsInOneSet.setText("10");
 		tfRequestsInOneSet.setColumns(10);
-		tfRequestsInOneSet.setBounds(30, 230, 100, 25);
+		tfRequestsInOneSet.setBounds(30, 204, 100, 25);
 		frame.getContentPane().add(tfRequestsInOneSet);
 		
 		JLabel lblNumberOfRequests = new JLabel("Number of requests in one set");
-		lblNumberOfRequests.setBounds(140, 230, 200, 25);
+		lblNumberOfRequests.setBounds(140, 205, 178, 25);
 		frame.getContentPane().add(lblNumberOfRequests);		
 		
-		checkRandomizeNumberOfRequestsInSet.setBounds(30, 260, 300, 25);
+		checkRandomizeNumberOfRequestsInSet.setBounds(30, 241, 300, 25);
 		frame.getContentPane().add(checkRandomizeNumberOfRequestsInSet);
 		
 		tfRandomizePercentage = new JTextField();
 		tfRandomizePercentage.setEditable(false);
 		tfRandomizePercentage.setText("0");
 		tfRandomizePercentage.setColumns(10);
-		tfRandomizePercentage.setBounds(30, 290, 100, 25);
+		tfRandomizePercentage.setBounds(30, 283, 100, 25);
 		frame.getContentPane().add(tfRandomizePercentage);
 		
 		JLabel lblOfRandomization = new JLabel("% of randomization");
-		lblOfRandomization.setBounds(140, 290, 200, 25);
+		lblOfRandomization.setBounds(140, 284, 120, 25);
 		frame.getContentPane().add(lblOfRandomization);
 		
 		JLabel lblRemainingRequests = new JLabel("Remaining requests:");
 		lblRemainingRequests.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblRemainingRequests.setBounds(960, 100, 200, 50);
+		lblRemainingRequests.setBounds(975, 100, 153, 50);
 		frame.getContentPane().add(lblRemainingRequests);
 		
 		JLabel lblIterationNumber = new JLabel("Iteration number:");
 		lblIterationNumber.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblIterationNumber.setBounds(960, 170, 200, 50);
+		lblIterationNumber.setBounds(993, 167, 135, 50);
 		frame.getContentPane().add(lblIterationNumber);		
 		
 		JButton btnResetSettings = new JButton("Reset settings");
@@ -497,11 +510,11 @@ public class Application
 		
 		JLabel lblRequestsWaitingTo = new JLabel("Requests waiting to be assigned by load balancer:");
 		lblRequestsWaitingTo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblRequestsWaitingTo.setBounds(350, 30, 387, 50);
+		lblRequestsWaitingTo.setBounds(761, 30, 387, 50);
 		frame.getContentPane().add(lblRequestsWaitingTo);		
 		
 		lblx.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblx.setBounds(740, 30, 80, 50);
+		lblx.setBounds(1160, 30, 80, 50);
 		frame.getContentPane().add(lblx);
 			
 		JButton btnCreateSimulation = new JButton("Create simulation");
@@ -563,6 +576,40 @@ public class Application
 		});
 		btnCreateSimulation.setBounds(520, 620, 200, 50);
 		frame.getContentPane().add(btnCreateSimulation);	
+		
+		JLabel lblServerSettings = new JLabel("Servers settings:");
+		lblServerSettings.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblServerSettings.setBounds(332, 30, 150, 50);
+		frame.getContentPane().add(lblServerSettings);
+		
+		tfServerCapacity = new JTextField();
+		tfServerCapacity.setText("100");
+		tfServerCapacity.setColumns(10);
+		tfServerCapacity.setBounds(332, 99, 100, 25);
+		frame.getContentPane().add(tfServerCapacity);
+		
+		JLabel labelServerCapacity = new JLabel("Server Capacity");
+		labelServerCapacity.setBounds(444, 100, 90, 25);
+		frame.getContentPane().add(labelServerCapacity);
+		
+		tfWeightServer = new JTextField();
+		tfWeightServer.setText("1");
+		tfWeightServer.setColumns(10);
+		tfWeightServer.setBounds(332, 128, 100, 25);
+		frame.getContentPane().add(tfWeightServer);
+		
+		JLabel labelWeightServer = new JLabel("Server Weight");
+		labelWeightServer.setBounds(444, 130, 90, 25);
+		frame.getContentPane().add(labelWeightServer);
+		
+		JButton btnAddServer = new JButton("Add ");
+		btnAddServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateAddServerByUser();
+			}
+		});
+		btnAddServer.setBounds(444, 166, 90, 28);
+		frame.getContentPane().add(btnAddServer);
 	}
 	
 	private class SwingAction extends AbstractAction {
