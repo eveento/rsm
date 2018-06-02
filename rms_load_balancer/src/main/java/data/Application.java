@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -29,11 +31,14 @@ import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JSlider;
+
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.AbstractButton;
@@ -42,6 +47,9 @@ import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JTextArea;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class Application
 {
@@ -69,17 +77,19 @@ public class Application
 	private static int numberOfIteration=0;
 	private static JTextField tfServerCapacity;
 	private static JTextField tfWeightServer;
+	private JTable table = new JTable();
+	DefaultTableModel model= (DefaultTableModel) table.getModel();
+	
+	//Object[] row = new Object[7];
 	
 	public static int getNumberOfIteration() {
 		return numberOfIteration;
 	}
 
-
 	public static void setNumberOfIteration(int numberOfIteration) {
 		Application.numberOfIteration = numberOfIteration;
 		
 	}
-
 
 	/**
 	 * Launch the application.
@@ -124,6 +134,7 @@ public class Application
 				.ServerCapacity(serverCapacity)
 				.Weight(serverWeight)
 				.Build());
+		JOptionPane.showMessageDialog(null, "Server has been added!");
 	}
 	
 	private static void CreateServers() {
@@ -215,13 +226,19 @@ public class Application
 		JButton btnRunAllOnePerIteration = new JButton("Run all");
 		btnRunAllOnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < numberOfIteration; i++)
+				try
+				{				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunAllOneRequestPerIteration();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
 				{
-					simulation.RunAllOneRequestPerIteration();
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation! Don't forger about select iterators");
 				}
-				System.out.println(numberOfIteration);
-				print();
-				UpdateUI();
 			}
 		});
 		btnRunAllOnePerIteration.setBounds(960, 620, 300, 50);
@@ -230,14 +247,21 @@ public class Application
 		JButton btnX10OnePerIteration = new JButton("x 10");
 		btnX10OnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(10);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnceOneRequest();
+					setNumberOfIteration(10);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);
-				print();
-				UpdateUI();
 			}
 		});
 		btnX10OnePerIteration.setBounds(1035, 550, 65, 50);
@@ -246,14 +270,21 @@ public class Application
 		JButton btnX1OnePerIteration = new JButton("x 1");
 		btnX1OnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(1);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnceOneRequest();
+					setNumberOfIteration(1);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);				
-				print();
-				UpdateUI();
 			}
 		});
 		btnX1OnePerIteration.setBounds(960, 550, 65, 50);
@@ -262,14 +293,21 @@ public class Application
 		JButton btnX1000OnePerIteration = new JButton("x 1000");
 		btnX1000OnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(1000);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnceOneRequest();
+					setNumberOfIteration(1000);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);				
-				print();
-				UpdateUI();
 			}
 		});
 		btnX1000OnePerIteration.setBounds(1185, 550, 75, 50);
@@ -278,14 +316,21 @@ public class Application
 		JButton btnX100OnePerIteration = new JButton("x 100");
 		btnX100OnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(100);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnceOneRequest();
+					setNumberOfIteration(100);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);
-				print();
-				UpdateUI();
 			}
 		});
 		btnX100OnePerIteration.setBounds(1110, 550, 65, 50);
@@ -294,13 +339,19 @@ public class Application
 		JButton btRunAllSet = new JButton("Run all");
 		btRunAllSet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < numberOfIteration; i++)
+				try
+				{				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunAll();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
 				{
-					simulation.RunAll();
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation! Don't forger about select iterators");
 				}
-				System.out.println(numberOfIteration);				
-				print();
-				UpdateUI();
 			}
 		});
 		btRunAllSet.setBounds(960, 400, 300, 50);
@@ -309,14 +360,21 @@ public class Application
 		JButton btnX1SetPerIteration = new JButton("x 1");
 		btnX1SetPerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(1);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnce();
+					setNumberOfIteration(1);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);	
-				print();
-				UpdateUI();
 			}
 		});
 		btnX1SetPerIteration.setBounds(960, 330, 65, 50);
@@ -325,14 +383,21 @@ public class Application
 		JButton btnX10SetSetPerIteration = new JButton("x 10");
 		btnX10SetSetPerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(10);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnce();
+					setNumberOfIteration(10);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);				
-				print();
-				UpdateUI();
 			}
 		});
 		btnX10SetSetPerIteration.setBounds(1035, 330, 65, 50);
@@ -341,14 +406,21 @@ public class Application
 		JButton btnX100SetSetPerIteration = new JButton("x 100");
 		btnX100SetSetPerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(100);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnce();
+					setNumberOfIteration(100);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);		
-				print();
-				UpdateUI();
 			}
 		});
 		btnX100SetSetPerIteration.setBounds(1110, 330, 65, 50);
@@ -357,14 +429,21 @@ public class Application
 		JButton btnX1000SetSetPerIteration = new JButton("x 1000");
 		btnX1000SetSetPerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setNumberOfIteration(1000);
-				for (int i = 0; i < numberOfIteration; i++)
+				try
 				{
-					simulation.RunOnce();
+					setNumberOfIteration(1000);
+				
+					for (int i = 0; i < numberOfIteration; i++)
+					{
+						simulation.RunOnce();
+					}
+					System.out.println(numberOfIteration);	
+					print();
+					UpdateUI();
+				}catch(NullPointerException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
 				}
-				System.out.println(numberOfIteration);				
-				print();
-				UpdateUI();
 			}
 		});
 		btnX1000SetSetPerIteration.setBounds(1185, 330, 75, 50);
@@ -494,7 +573,11 @@ public class Application
 				tfTotalRequests.setText("1000");
 				lblx.setText("0");
 				lblIterationNumberNumber.setText("0");
-				lblRemainingRequestsNumber.setText("0");			
+				lblRemainingRequestsNumber.setText("0");
+				while(model.getRowCount() > 0)
+				{
+				    model.removeRow(0);
+				}
 			}
 		});
 		btnResetSettings.setBounds(740, 620, 200, 50);
@@ -610,6 +693,14 @@ public class Application
 		});
 		btnAddServer.setBounds(444, 166, 90, 28);
 		frame.getContentPane().add(btnAddServer);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(272, 265, 668, 308);
+		frame.getContentPane().add(scrollPane);
+		
+		scrollPane.setViewportView(table);
+		
+		initTable();
 	}
 	
 	private class SwingAction extends AbstractAction {
@@ -628,6 +719,7 @@ public class Application
 			lblx.setText(""+numberOfRequestWait);
 			lblIterationNumberNumber.setText(""+iterationNumber);
 			lblRemainingRequestsNumber.setText(""+remainingRequest);
+			updateTable();
 	}
 
 	private void print()
@@ -639,6 +731,28 @@ public class Application
 			System.out.println(item.toString());
 		}
 		System.out.println("\n");
+	}
+	public void initTable() {	
+		String[] columnHeader= {"ID","Capacity","Weight","Performance Factor","Number of request being served","Percantage Fill","Can Accept Request"};
+		model.setColumnIdentifiers(columnHeader);
+		table.setModel(model);
+		
+	}
+	public void updateTable() {
+		for(int i=0;i<listOfServers.size();i++) {
+			int id = listOfServers.get(i).getServerId();
+			int capacity=listOfServers.get(i).getServerCapacity();
+			double weight = listOfServers.get(i).getWeight();
+			double performanceFactor=listOfServers.get(i).getPerformanceFactor();
+			int numberOfRequestBeingServed=listOfServers.get(i).GetNumberOfRequestsBeingServed();
+			double percantageFill=listOfServers.get(i).GetPercantageFill();
+			boolean canAcceptRequest=listOfServers.get(i).CheckIfCanAcceptRequest();
+			
+			Object[] row= {id,capacity,weight,performanceFactor,numberOfRequestBeingServed,percantageFill,canAcceptRequest};
+			model.addRow(row);
+			
+		}Object[] row2= {"","","","","","",""};
+		model.addRow(row2);
 	}
 }
 
