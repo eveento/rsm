@@ -16,6 +16,7 @@ public class LoadBalancerRR extends LoadBalancer
 	public LoadBalancerRR(List<ServerUnit> _ListOfServers)
 	{
 		super(_ListOfServers);
+		typeOfLoadBalancer = typeOfLoadBalancer.RoundRobin;
 		initChosenServerIndex();
 	}
 

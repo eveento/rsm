@@ -11,21 +11,24 @@ public class ServerUnit
 	private int serverCapacity;
 	private double weight;
 	private double performanceFactor;
-
-	public ServerUnit(int _serverCapacity, double _weight, double _performanceFactor)
+	
+	private ServerUnit(Builder builder)
 	{
 		this.serverId = ++ServerUnit.numerator;
 		this.ListOfRequests = new ArrayList<Request>();
-
-		setServerCapacity(_serverCapacity);
-		setWeight(_weight);
-		setPerformanceFactor(_performanceFactor);
+		
+		this.serverCapacity = builder.serverCapacity;
+		this.weight = builder.weight;
+		this.performanceFactor = builder.performanceFactor;
 	}
 
-	public ServerUnit()
+	@Override
+	protected void finalize() throws Throwable
 	{
+		numerator--;
+		super.finalize();
 	}
-
+	
 	public void Work()
 	{
 		WorkOnRequests();
@@ -150,6 +153,60 @@ public class ServerUnit
 				+ ", performanceFactor=" + performanceFactor + ", GetNumberOfRequestsBeingServed()="
 				+ GetNumberOfRequestsBeingServed() + ", GetPercantageFill()=" + GetPercantageFill()
 				+ ", CheckIfCanAcceptRequest()=" + CheckIfCanAcceptRequest() + "]";
+	}
+	
+	public static class Builder
+	{
+		private int serverCapacity = 100;
+		private double weight = 1.0;
+		private double performanceFactor = 1.0;
+		
+		public Builder ServerCapacity(int serverCapacity)
+		{
+			this.serverCapacity = MakeNumberPositive(serverCapacity);
+			return this;
+		}
+
+		public Builder Weight(double weight)
+		{
+			this.weight = MakeNumberPositive(weight);
+			return this;
+		}
+
+		public Builder PerformanceFactor(double performanceFactor)
+		{
+			this.performanceFactor = MakeNumberPositive(performanceFactor);
+			return this;
+		}
+		
+		public ServerUnit Build()
+		{
+			return new ServerUnit(this);
+		}
+		
+		private double MakeNumberPositive(double number)
+		{
+			if (number >= 0)
+			{
+				return number;
+			} else if (number < 0)
+			{
+				return -number;
+			}
+			return 1.0;
+		}
+
+		private int MakeNumberPositive(int number)
+		{
+			if (number >= 0)
+			{
+				return number;
+			} else if (number < 0)
+			{
+				return -number;
+			}
+			return 1;
+		}
 	}
 
 }
