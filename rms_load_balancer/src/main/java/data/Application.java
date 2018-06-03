@@ -80,7 +80,6 @@ public class Application
 	private JTable table = new JTable();
 	DefaultTableModel model= (DefaultTableModel) table.getModel();
 	
-	//Object[] row = new Object[7];
 	
 	public static int getNumberOfIteration() {
 		return numberOfIteration;
@@ -105,7 +104,6 @@ public class Application
 				{
 					Application window = new Application();
 					window.frame.setVisible(true);
-					CreateServers();
 					CreateClients(); 					
 				} catch (Exception e)
 				{
@@ -148,19 +146,19 @@ public class Application
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
-				.ServerCapacity(100)
+				.ServerCapacity(50)
 				.Weight(5)
 				.Build());
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
-				.ServerCapacity(100)
+				.ServerCapacity(90)
 				.Weight(7)
 				.Build());
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
-				.ServerCapacity(100)
+				.ServerCapacity(10)
 				.Weight(9)
 				.Build()); 
 	}
@@ -227,7 +225,10 @@ public class Application
 		btnRunAllOnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
-				{				
+				{	if(listOfServers.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Add the server!");
+					clearTable();
+				}else {			
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunAllOneRequestPerIteration();
@@ -235,6 +236,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+				}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation! Don't forger about select iterators");
@@ -250,7 +252,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(10);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -258,6 +263,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -273,7 +279,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(1);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -281,6 +290,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -296,7 +306,11 @@ public class Application
 				try
 				{
 					setNumberOfIteration(1000);
-				
+				if(listOfServers.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Add the server!");
+					clearTable();
+				}else {
+					
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -304,6 +318,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+				}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -319,7 +334,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(100);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -327,6 +345,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -340,7 +359,10 @@ public class Application
 		btRunAllSet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
-				{				
+				{	if(listOfServers.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Add the server!");
+					clearTable();
+				}else {			
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunAll();
@@ -348,6 +370,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+				}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation! Don't forger about select iterators");
@@ -363,7 +386,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(1);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -371,6 +397,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -386,7 +413,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(10);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -394,6 +424,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -409,7 +440,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(100);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -417,6 +451,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -432,7 +467,10 @@ public class Application
 				try
 				{
 					setNumberOfIteration(1000);
-				
+					if(listOfServers.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Add the server!");
+						clearTable();
+					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
 						simulation.RunOnce();
@@ -440,6 +478,7 @@ public class Application
 					System.out.println(numberOfIteration);	
 					print();
 					UpdateUI();
+					}
 				}catch(NullPointerException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Select algorithm and create simulation!");
@@ -574,12 +613,10 @@ public class Application
 				lblx.setText("0");
 				lblIterationNumberNumber.setText("0");
 				lblRemainingRequestsNumber.setText("0");
-				while(model.getRowCount() > 0)
-				{
-				    model.removeRow(0);
-				}
+				clearTable();
 			}
 		});
+		
 		btnResetSettings.setBounds(740, 620, 200, 50);
 		frame.getContentPane().add(btnResetSettings);
 		
@@ -657,7 +694,7 @@ public class Application
 			}
 			}
 		});
-		btnCreateSimulation.setBounds(520, 620, 200, 50);
+		btnCreateSimulation.setBounds(507, 620, 200, 50);
 		frame.getContentPane().add(btnCreateSimulation);	
 		
 		JLabel lblServerSettings = new JLabel("Servers settings:");
@@ -699,6 +736,23 @@ public class Application
 		frame.getContentPane().add(scrollPane);
 		
 		scrollPane.setViewportView(table);
+		
+		JButton buttonDefaultOption = new JButton("Set default options");
+		buttonDefaultOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateServers();
+				tfMaxWork.setText("5");
+				tfMinWork.setText("5");
+				tfRandomizePercentage.setText("0");
+				tfRequestsInOneSet.setText("10");
+				tfTotalRequests.setText("1000");
+				lblx.setText("0");
+				lblIterationNumberNumber.setText("0");
+				lblRemainingRequestsNumber.setText("0");
+			}
+		});
+		buttonDefaultOption.setBounds(272, 620, 200, 50);
+		frame.getContentPane().add(buttonDefaultOption);
 		
 		initTable();
 	}
@@ -753,6 +807,12 @@ public class Application
 			
 		}Object[] row2= {"","","","","","",""};
 		model.addRow(row2);
+	}
+	public void clearTable() {
+		while(model.getRowCount() > 0)
+		{
+		    model.removeRow(0);
+		}
 	}
 }
 
