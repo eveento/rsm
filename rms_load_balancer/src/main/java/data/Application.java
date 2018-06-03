@@ -137,6 +137,7 @@ public class Application
 				.PerformanceFactor(performanceFactor)
 				.Build());
 		JOptionPane.showMessageDialog(null, "Server has been added!");
+		
 	}
 	
 	private static void CreateServers() {
@@ -628,6 +629,7 @@ public class Application
 				tfRandomizePercentage.enable();
 				clearTable();
 				removeServers();
+				checkRandomizeNumberOfRequestsInSet.setSelected(false);
 			}
 		});
 		
@@ -788,6 +790,12 @@ public class Application
 		});
 		btnShowServers.setBounds(330, 203, 118, 28);
 		frame.getContentPane().add(btnShowServers);
+		
+		JLabel lblRememberAfter = new JLabel("REMEMBER! After each server selection CREATE SYMULATION");
+		lblRememberAfter.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 18));
+		lblRememberAfter.setForeground(Color.RED);
+		lblRememberAfter.setBounds(275, 584, 665, 16);
+		frame.getContentPane().add(lblRememberAfter);
 		
 		initTable();
 	}
