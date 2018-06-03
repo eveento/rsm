@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
@@ -62,6 +63,7 @@ public class Application
 	private static JTextField tfTotalRequests;
 	private static JTextField tfRequestsInOneSet;
 	private static JTextField tfRandomizePercentage;
+	
 	private final static ButtonGroup ChosenLoadBalancer = new ButtonGroup();
 	
 	private static  List<ServerUnit> listOfServers= new ArrayList<ServerUnit>();
@@ -77,10 +79,10 @@ public class Application
 	private static int numberOfIteration=0;
 	private static JTextField tfServerCapacity;
 	private static JTextField tfWeightServer;
+	private static JTextField tfPerformanceFactor;
 	private JTable table = new JTable();
 	DefaultTableModel model= (DefaultTableModel) table.getModel();
-	
-	
+		
 	public static int getNumberOfIteration() {
 		return numberOfIteration;
 	}
@@ -125,12 +127,14 @@ public class Application
 	private static void CreateAddServerByUser() {
 		int serverCapacity = Integer.parseInt(tfServerCapacity.getText()); 
 		int serverWeight=Integer.parseInt(tfWeightServer.getText());
+		int performanceFactor=Integer.parseInt(tfPerformanceFactor.getText());
 		
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(serverCapacity)
 				.Weight(serverWeight)
+				.PerformanceFactor(performanceFactor)
 				.Build());
 		JOptionPane.showMessageDialog(null, "Server has been added!");
 	}
@@ -142,24 +146,28 @@ public class Application
 				.Builder()
 				.ServerCapacity(100)
 				.Weight(1)
+				.PerformanceFactor(1.0)
 				.Build());
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(50)
 				.Weight(5)
+				.PerformanceFactor(0.8)
 				.Build());
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(90)
 				.Weight(7)
+				.PerformanceFactor(0.5)
 				.Build());
 		listOfServers.add(
 				new ServerUnit
 				.Builder()
 				.ServerCapacity(10)
 				.Weight(9)
+				.PerformanceFactor(0.4)
 				.Build()); 
 	}
 	
@@ -170,8 +178,11 @@ public class Application
 		int initRequestNumb=Integer.parseInt(tfTotalRequests.getText());
 		int requestsInOneQueue=Integer.parseInt(tfRequestsInOneSet.getText());
 		double percentageRandomizeOfRequests=Integer.parseInt(tfRandomizePercentage.getText());
-		
-		 boolean randomizeNumberOfRequests=(checkRandomizeNumberOfRequestsInSet.isSelected()?true:false);
+		boolean randomizeNumberOfRequests=(checkRandomizeNumberOfRequestsInSet.isSelected()?true:false);
+		if(percentageRandomizeOfRequests==0)
+					JOptionPane.showMessageDialog(null, "Value of randomize must be positive! Plese input correct value and create simulation again!");
+		else
+			percentageRandomizeOfRequests=percentageRandomizeOfRequests/100;
 		
 		client = new Client
 				.Builder()
@@ -578,7 +589,7 @@ public class Application
 		
 		tfRandomizePercentage = new JTextField();
 		tfRandomizePercentage.setEditable(false);
-		tfRandomizePercentage.setText("0");
+		tfRandomizePercentage.setText("1");
 		tfRandomizePercentage.setColumns(10);
 		tfRandomizePercentage.setBounds(30, 283, 100, 25);
 		frame.getContentPane().add(tfRandomizePercentage);
@@ -607,13 +618,16 @@ public class Application
 				radioWRR.setSelected(false);
 				tfMaxWork.setText("5");
 				tfMinWork.setText("5");
-				tfRandomizePercentage.setText("0");
+				tfRandomizePercentage.setText("1");
 				tfRequestsInOneSet.setText("10");
 				tfTotalRequests.setText("1000");
 				lblx.setText("0");
 				lblIterationNumberNumber.setText("0");
 				lblRemainingRequestsNumber.setText("0");
+				tfRandomizePercentage.setEditable(false);
+				tfRandomizePercentage.enable();
 				clearTable();
+				removeServers();
 			}
 		});
 		
@@ -709,13 +723,13 @@ public class Application
 		frame.getContentPane().add(tfServerCapacity);
 		
 		JLabel labelServerCapacity = new JLabel("Server Capacity");
-		labelServerCapacity.setBounds(444, 100, 90, 25);
+		labelServerCapacity.setBounds(444, 93, 90, 25);
 		frame.getContentPane().add(labelServerCapacity);
 		
 		tfWeightServer = new JTextField();
 		tfWeightServer.setText("1");
 		tfWeightServer.setColumns(10);
-		tfWeightServer.setBounds(332, 128, 100, 25);
+		tfWeightServer.setBounds(332, 129, 100, 25);
 		frame.getContentPane().add(tfWeightServer);
 		
 		JLabel labelWeightServer = new JLabel("Server Weight");
@@ -728,7 +742,7 @@ public class Application
 				CreateAddServerByUser();
 			}
 		});
-		btnAddServer.setBounds(444, 166, 90, 28);
+		btnAddServer.setBounds(444, 203, 118, 28);
 		frame.getContentPane().add(btnAddServer);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -743,7 +757,7 @@ public class Application
 				CreateServers();
 				tfMaxWork.setText("5");
 				tfMinWork.setText("5");
-				tfRandomizePercentage.setText("0");
+				tfRandomizePercentage.setText("1");
 				tfRequestsInOneSet.setText("10");
 				tfTotalRequests.setText("1000");
 				lblx.setText("0");
@@ -753,6 +767,27 @@ public class Application
 		});
 		buttonDefaultOption.setBounds(272, 620, 200, 50);
 		frame.getContentPane().add(buttonDefaultOption);
+		
+		tfPerformanceFactor = new JTextField();
+		tfPerformanceFactor.setText("1");
+		tfPerformanceFactor.setColumns(10);
+		tfPerformanceFactor.setBounds(332, 166, 100, 25);
+		frame.getContentPane().add(tfPerformanceFactor);
+		
+		JLabel labelPerformanceFactor = new JLabel("Performance Factor");
+		labelPerformanceFactor.setBounds(444, 167, 129, 25);
+		frame.getContentPane().add(labelPerformanceFactor);
+		
+		JButton btnShowServers = new JButton("Show Servers");
+		btnShowServers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearTable();
+				initServerTable();
+				updateServerTable();
+			}
+		});
+		btnShowServers.setBounds(330, 203, 118, 28);
+		frame.getContentPane().add(btnShowServers);
 		
 		initTable();
 	}
@@ -786,13 +821,21 @@ public class Application
 		}
 		System.out.println("\n");
 	}
-	public void initTable() {	
+	public void initTable() {
+		clearTable();
 		String[] columnHeader= {"ID","Capacity","Weight","Performance Factor","Number of request being served","Percantage Fill","Can Accept Request"};
 		model.setColumnIdentifiers(columnHeader);
 		table.setModel(model);
 		
 	}
+	public void initServerTable() {
+		String[] columnHeader= {"ID","Capacity","Weight","Performance Factor"};
+		model.setColumnIdentifiers(columnHeader);
+		table.setModel(model);
+	}
 	public void updateTable() {
+		clearTable();
+		initTable();
 		for(int i=0;i<listOfServers.size();i++) {
 			int id = listOfServers.get(i).getServerId();
 			int capacity=listOfServers.get(i).getServerCapacity();
@@ -808,11 +851,36 @@ public class Application
 		}Object[] row2= {"","","","","","",""};
 		model.addRow(row2);
 	}
+	
+	public void updateServerTable() {
+		for(int i=0;i<listOfServers.size();i++) {
+			int id = listOfServers.get(i).getServerId();
+			int capacity=listOfServers.get(i).getServerCapacity();
+			double weight = listOfServers.get(i).getWeight();
+			double performanceFactor=listOfServers.get(i).getPerformanceFactor();
+			
+			Object[] row= {id,capacity,weight,performanceFactor};
+			model.addRow(row);
+		}
+	}
+	
 	public void clearTable() {
 		while(model.getRowCount() > 0)
 		{
 		    model.removeRow(0);
 		}
 	}
+	public void removeServers() {
+		try {
+		//for (ServerUnit item: listOfServers) 
+			listOfServers.removeAll(listOfServers);
+		    
+		}catch(ConcurrentModificationException e1) {
+			JOptionPane.showMessageDialog(null, "All options have been deleted. Servers too.");
+		}
+		
+	}
+	
+
 }
 
