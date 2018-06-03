@@ -237,7 +237,9 @@ public class Application
 		btnRunAllOnePerIteration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
-				{	if(listOfServers.isEmpty()) {
+				{	
+					setNumberOfIteration(1);
+					if(listOfServers.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Add the server!");
 					clearTable();
 				}else {			
@@ -270,7 +272,7 @@ public class Application
 					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
-						simulation.RunOnce();
+						simulation.RunOnceOneRequest();
 					}
 					System.out.println(numberOfIteration);	
 					print();
@@ -297,7 +299,7 @@ public class Application
 					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
-						simulation.RunOnce();
+						simulation.RunOnceOneRequest();
 					}
 					System.out.println(numberOfIteration);	
 					print();
@@ -325,7 +327,7 @@ public class Application
 					
 					for (int i = 0; i < numberOfIteration; i++)
 					{
-						simulation.RunOnce();
+						simulation.RunOnceOneRequest();
 					}
 					System.out.println(numberOfIteration);	
 					print();
@@ -352,7 +354,7 @@ public class Application
 					}else {
 					for (int i = 0; i < numberOfIteration; i++)
 					{
-						simulation.RunOnce();
+						simulation.RunOnceOneRequest();
 					}
 					System.out.println(numberOfIteration);	
 					print();
@@ -371,7 +373,9 @@ public class Application
 		btRunAllSet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
-				{	if(listOfServers.isEmpty()) {
+				{	
+					setNumberOfIteration(1);
+					if(listOfServers.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Add the server!");
 					clearTable();
 				}else {			
