@@ -791,10 +791,10 @@ public class Application
 		btnShowServers.setBounds(330, 203, 118, 28);
 		frame.getContentPane().add(btnShowServers);
 		
-		JLabel lblRememberAfter = new JLabel("REMEMBER! After each server selection CREATE SYMULATION");
+		JLabel lblRememberAfter = new JLabel("REMEMBER! After each server selection CREATE SYMULATION again");
 		lblRememberAfter.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 18));
 		lblRememberAfter.setForeground(Color.RED);
-		lblRememberAfter.setBounds(275, 584, 665, 16);
+		lblRememberAfter.setBounds(275, 575, 665, 25);
 		frame.getContentPane().add(lblRememberAfter);
 		
 		initTable();
