@@ -64,7 +64,7 @@ public class LoadBalancer
 
 	public void Work()
 	{
-
+		
 	}
 
 	public void AddRequest(Request request)
